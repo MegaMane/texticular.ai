@@ -1,0 +1,48 @@
+{
+    "characters": [
+        {
+            "type": "Player",
+            "keyValue": "player",
+            "name": "Jon",
+            "sex": "Male",
+            "hp": 100,
+            "hpoo": 80,
+            "locationKey": "room201",
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "An Angry nerd with delusions of grandeur."
+            },
+            "flags": [
+                "PLAYERBIT"
+            ],
+            "actionMethod": null,
+            "inventory": {
+                "type": "Inventory",
+                "keyValue": "player-inventory",
+                "locationKey": "player",
+                "name": "Backpack",
+                "synonyms": [
+                    "Backpack",
+                    "Bag",
+                    "Inventory"
+                ],
+                "adjectives": [],
+                "currentDescription": "Main",
+                "examineDescription": "Main",
+                "descriptions": {
+                    "Main": "Your trusty black backpack."
+                },
+                "slots": 10,
+                "size": 99,
+                "keyObject": null,
+                "itemKeyValues": [],
+                "flags": [
+                    "CONTAINERBIT",
+                    "OPENBIT"
+                ],
+                "actionMethod": null
+            }
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+  "newGame": {
+    "roomConfig": "newGameMap.json",
+    "itemConfig": "newGameitems.json",
+    "characterConfig": "newGameCharacters.json"
+  }
+
+}

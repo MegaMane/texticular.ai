@@ -1,0 +1,227 @@
+{
+    "items": [
+        {
+            "type": "StoryItem",
+            "keyValue": "masterKey",
+            "locationKey": "nowhereLand",
+            "name": "Master Key",
+            "synonyms": [
+                "Master Key",
+                "Bad Mother Fuckin' Key"
+            ],
+            "adjectives": [],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "The key that opens every door"
+            },
+            "size": 1,
+            "flags": [
+                "KLUDGEBIT"
+            ],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "intro-note",
+            "locationKey": "room201",
+            "name": "Note",
+            "synonyms": [
+                "Note",
+                "Letter"
+            ],
+            "adjectives": [],
+            "currentDescription": "StartingRoom",
+            "examineDescription": "Main",
+            "descriptions": {
+                "StartingRoom": "On the floor you see a small folded piece of paper, looks like a note.",
+                "Main": "A small folded note with some sloppy handwriting on it, you can still read it though...",
+                "Dropped": "There is a crumpled note on the floor here."
+            },
+            "size": 1,
+            "flags": [
+                "TAKEBIT"
+            ],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "crustyEarPlugs",
+            "locationKey": "room201-nightStand-drawer",
+            "name": "Ear Plugs",
+            "synonyms": [
+                "Ear Plugs",
+                "Plugs"
+            ],
+            "adjectives": [
+                "Crusty",
+                "Yellow"
+            ],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "Some well loved yellow ear plugs, they smell kinda funky but they still work."
+            },
+            "size": 1,
+            "flags": [
+                "TAKEBIT"
+            ],
+            "actionMethod": null
+        },
+       {
+            "type": "StoryItem",
+            "keyValue": "room201-purpleHandPrints",
+            "locationKey": "room201",
+            "name": "Hand Prints",
+            "synonyms": [
+                "Prints",
+                "Hand prints"
+            ],
+            "adjectives": [
+                "Sticky",
+                "Purple"
+            ],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "You take a closer look at the Sticky Purple Hand prints smudged on the window...yep, they are definitely yours."
+            },
+            "size": 1,
+            "flags": [
+                "SETPIECEBIT"
+            ],
+            "actionMethod": "action_room201_purpleHandPrints"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-nightStand",
+            "locationKey": "room201",
+            "name": "Stand",
+            "synonyms": [
+                "Stand",
+                "Table"
+            ],
+            "adjectives": [
+                "Beat Up",
+                "Night"
+            ],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A beat up night stand with a little drawer built into it and black rotary phone on top"
+            },
+            "size": 40,
+            "flags": [
+                "SETPIECEBIT",
+                "SURFACEBIT"
+            ],
+            "actionMethod": "action_room201_nightStand"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-nightStand-lemon",
+            "locationKey": "room201",
+            "name": "Lemon",
+            "synonyms": [
+                "Lemon",
+                "Fruit"
+            ],
+            "adjectives": [
+                "Tiny",
+                "Sour",
+                "Yellow"
+            ],
+            "currentDescription": "StartingRoom",
+            "examineDescription": "Main",
+            "descriptions": {
+                "StartingRoom": "A little lemon with a big attitude sits on the night stand.",
+                "Main": "A little lemon with a big attitude just begging to be squeezed."
+            },
+            "size": 1,
+            "flags": [
+                "TAKEBIT"
+            ],
+            "actionMethod": null
+        },
+        {
+            "type": "Container",
+            "keyValue": "room201-nightStand-drawer",
+            "locationKey": "room201",
+            "name": "Drawer",
+            "synonyms": [
+                "Table",
+                "Drawer"
+            ],
+            "adjectives": [
+                "Little",
+                "Wooden"
+            ],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A little wooden drawer that can hold a few items, nothing special about it."
+            },
+            "slots": 5,
+            "size": 99,
+            "keyObject": null,
+            "itemKeyValues": [
+                "crustyEarPlugs"
+            ],
+            "flags": [
+                "CONTAINERBIT",
+                "SETPIECEBIT"
+            ],
+            "actionMethod": null
+        },
+        {
+            "type": "Container",
+            "keyValue": "room201-couch",
+            "locationKey": "room201",
+            "name": "Couch",
+            "synonyms": [
+                "couch"
+            ],
+            "adjectives": [
+                "obnoxious",
+                "orange"
+            ],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "There is an obnoxious orange couch in the corner"
+            },
+            "slots": 5,
+            "size": 99,
+            "keyObject": null,
+            "itemKeyValues": [
+                "key-eastHallway2f-supplyCloset"
+            ],
+            "flags": [
+                "CONTAINERBIT",
+                "SETPIECEBIT"
+            ],
+            "actionMethod": "action_room201_couch"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "key-eastHallway2f-supplyCloset",
+            "locationKey": "room201-couch",
+            "name": "Supply Closet Key",
+            "synonyms": [
+                "Supply Closet Key",
+                "Key"
+            ],
+            "adjectives": ["little"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A little key that has some faded writing on it. You can make out 'S__ply CLst'"
+            },
+            "size": 1,
+            "flags": [
+                "TAKEBIT"
+            ],
+            "actionMethod": null
+        }
+    ]
+}

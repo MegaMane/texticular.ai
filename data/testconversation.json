@@ -1,0 +1,113 @@
+{
+  "title": "Conversation with Hotel Clerk",
+  "rootNodeID": "START",
+  "nodes": [
+    {
+      "nodeId": "START",
+      "text": "Nigel: Hello sir, you seem a bit flustered. How can I help you?",
+      "choices": [
+        {
+          "choice": "I'm looking for some toilet paper",
+          "leadsToId": "CERTAINLY"
+        },
+        {
+          "choice": "Dude, I'm going to shit myself, give me some fucking toilet paper!",
+          "leadsToId": "SECURITY"
+        }
+      ]
+    },
+    {
+      "nodeId": "CERTAINLY",
+      "text": "Nigel: Certainly sir, that will be $49.99 would you like to pay with cash or credit?",
+      "choices": [
+        {
+          "choice": "Can't I just bill it to my room?",
+          "leadsToId": "DENY"
+        },
+        {
+          "choice": "49.99!!! Are you out of your mind!?",
+          "leadsToId": "CONFIRM"
+        },
+        {
+          "choice": "Sure, just take it all. Sweet Jesus, I gotta go!",
+          "leadsToId": "VICTORY"
+        }
+      ]
+    },
+     {
+      "nodeId": "CONFIRM",
+      "text": "Nigel: Sir, I assure you I am of sound mind and that is indeed the price. Still interested?",
+      "choices": [
+        {
+          "choice": "Sigh...Yes.",
+          "leadsToId": "CERTAINLY"
+        },
+        {
+          "choice": "Nevermind",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "SECURITY",
+      "text": "Nigel: OH, it seems one of the vagrants has made their way into the lobby again. Security!",
+      "choices": [
+        {
+          "choice": "You know what, this was just a misunderstanding, I'll hold it.",
+          "leadsToId": "EXIT"
+        },
+        {
+          "choice": "Punch the security guard in the face.",
+          "leadsToId": "DEFEAT"
+        }
+      ]
+    },
+    {
+      "nodeId": "DENY",
+      "text": "Nigel: I apologize for the inconvenience, but that is something we only extend to our V.I.P. guests,and you sir do not appear to be on the list. Unfortunately...[whispers] (for you) [chuckles smugly to himself]",
+      "choices": [
+        {
+          "choice": "You son of a bitch! I'll murder you!",
+          "leadsToId": "SECURITY"
+        },
+        {
+          "choice": "Ok then, about that toilet paper...",
+          "leadsToId": "CERTAINLY"
+        }
+      ]
+    },
+    {
+      "nodeId": "DEFEAT",
+      "text": "You angrily swing at the security guard but he dodges easily and returns the favor with a brutal punch to the gut and then throws you out the door. You're hurtin' and you realize something smells... a lot like poop. This isn't your day.",
+      "choices": [
+        {
+          "choice": "Retry",
+          "leadsToId": "START"
+        },
+        {
+          "choice": "Exit game",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "VICTORY",
+      "text": "Hooray, it cost you your 401k but you've got that sweet sweet TP for your bung hole!",
+      "choices": [
+        {
+          "choice": "Start from beginning",
+          "leadsToId": "START"
+        },
+        {
+          "choice": "Exit game",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "EXIT",
+      "text": "Nigel: Take Care now sir.",
+      "choices": []
+    }
+  ]
+}

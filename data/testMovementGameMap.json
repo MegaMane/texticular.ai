@@ -1,0 +1,214 @@
+{
+    "rooms": [
+        {
+            "type": "Room",
+            "keyValue": "room201",
+            "locationKey": "Map",
+            "name": "Room 201",
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "As you look around the hotel room you see an old TV with rabbit ears that looks like it came straight out of the 1950's. Against the wall there is a beat up night stand with a little drawer built into it and an old phone on top. Next to it is a lumpy old bed that looks like it's seen better days, with a dark brown stain on the sheets and a funny smell coming from it. There is an obnoxious orange couch in the corner next to a small window smudged with sticky purple hand prints. The stuffing is coming out of the cushions which are also spotted with purple, and the floor is covered with cans of Fast Eddie's Colon Cleanse."
+            },
+            "flags": [
+                "CONTAINERBIT",
+                "ONBIT"
+            ],
+            "actionMethod": null,
+            "timesVisited": 0,
+            "exits": {
+                "WEST": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-room201-bathroom",
+                    "locationKey": "room201",
+                    "name": "Bathroom Door",
+                    "connection": "bathroom-room201",
+                    "keyObject": null,
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "is the DOOR to that sweet sweet porcelain throne.",
+                        "GreatDane": "is the DOOR to a fucked up killer version of Scooby-Doo (and He's hungry)!"
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "OPENBIT"
+                    ],
+                    "actionMethod": null
+                },
+                "EAST": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-room201-hallway",
+                    "locationKey": "room201",
+                    "name": "Hallway Door",
+                    "connection": "westHallway-2f",
+                    "keyObject": null,
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "the DOOR leads outside to the hallway...where hopefully there are toilets."
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "OPENBIT"
+                    ],
+                    "actionMethod": null
+                }
+            },
+            "items": [],
+            "npcs": []
+        },
+        {
+            "type": "Room",
+            "keyValue": "bathroom-room201",
+            "locationKey": "Map",
+            "name": "Room 201 - Bathroom",
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "You crack open the door to the bathroom and it looks like it's seen better days. From the smell of it, it looks like someone beat you to it and narrowly escaped a hard fought battle with an eight pound burrito. The sink is old,yellowed and caked with brown muck in the corners. The mirror is cracked and something is written on it in red. You can't quite make it out. But you don't care...you've gotta take a shit! You rush to be the first in line to make a deposit in the porcelain bank. But just as you are about to drop it like it's hot you notice there is an angry Great Dane guarding the toilet and he looks hungry! You quickly shut the door and somehow manage to not lose your shit (literally). Looks like you have to find somewhere else to go if you value your junk...and your life."
+            },
+            "flags": [
+                "CONTAINERBIT",
+                "ONBIT"
+            ],
+            "actionMethod": null,
+            "timesVisited": 0,
+            "exits": {
+                "EAST": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-bathroom-room201",
+                    "locationKey": "bathroom-room201",
+                    "name": "Door to the bedroom",
+                    "connection": "room201",
+                    "keyObject": null,
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "is the DOOR to the Bedroom. Hurry get the fuck out of here before that crazy dog rips out your throat!",
+                        "SleepyTime": "is the DOOR to the Bedroom. The great Dane Sleeps peacefully behind you. Not weird at all."
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "OPENBIT"
+                    ],
+                    "actionMethod": null
+                }
+            },
+            "items": [],
+            "npcs": []
+        },
+        {
+            "type": "Room",
+            "keyValue": "westHallway-2f",
+            "locationKey": "Map",
+            "name": "West Hallway",
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "You eagerly enter the hallway. The glow of the yellow fluorescent lights are complimented by the well-worn red carpet. The diamond pattern urges you forward.",
+                "HasPooped": "You're in the hallway. The glow of the yellow fluorescent lights are complimented by the well-worn red carpet. The diamond pattern urges you forward."
+            },
+            "flags": [
+                "CONTAINERBIT",
+                "ONBIT"
+            ],
+            "actionMethod": null,
+            "timesVisited": 0,
+            "exits": {
+                "NORTH": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-westHallway-room203",
+                    "locationKey": "westHallway-2f",
+                    "name": "Door to Room 203",
+                    "connection": "room203",
+                    "keyObject": "masterKey",
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "is the DOOR to room 203. From the sounds of it someone's parents were really overdue for some alone time. The headboard is rattling against the wall and shit sounds like it's breaking. All seems consensual though...if a little embarassing."
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "LOCKEDBIT"
+                    ],
+                    "actionMethod": null
+                },
+                "EAST": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-westHallway-eastHallway",
+                    "locationKey": "westHallway-2f",
+                    "name": "East Hallway",
+                    "connection": "eastHallway-2f",
+                    "keyObject": null,
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "the diamond pattern stretches into more hallway (the EAST HALLWAY)."
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "OPENBIT"
+                    ],
+                    "actionMethod": null
+                },
+                "SOUTH": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-westHallway-vending",
+                    "locationKey": "westHallway-2f",
+                    "name": "Vending Machine Alcove",
+                    "connection": "vending-2f",
+                    "keyObject": null,
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "there is a small ALCOVE with a VENDING MACHINE."
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "OPENBIT"
+                    ],
+                    "actionMethod": null
+                },
+                "WEST": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-westHallway-room201",
+                    "locationKey": "westHallway-2f",
+                    "name": "Door to Room 201",
+                    "connection": "room201",
+                    "keyObject": null,
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "the DOOR to Room 201 (Your Room)"
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "OPENBIT"
+                    ],
+                    "actionMethod": null
+                },
+                "NORTHWEST": {
+                    "type": "RoomExit",
+                    "keyValue": "exits-westHallway-room202",
+                    "locationKey": "westHallway-2f",
+                    "name": "Door to Room 202",
+                    "connection": "room202",
+                    "keyObject": "masterKey",
+                    "currentDescription": "Main",
+                    "examineDescription": "Main",
+                    "descriptions": {
+                        "Main": "the DOOR to room 202. All is quiet, except of course for the incessant grunting and pounding going on next door in room 203. God I hope nobody is trying to sleep in there..."
+                    },
+                    "flags": [
+                        "DOORBIT",
+                        "LOCKEDBIT"
+                    ],
+                    "actionMethod": null
+                }
+            },
+            "items": [],
+            "npcs": []
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "type": "StoryItem",
+            "keyValue": "masterKey",
+            "locationKey": "nowhereLand",
+            "name": "Master Key",
+            "synonyms": [
+                "Bad Mother Fuckin' Key"
+            ],
+            "adjectives": [],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "The key that opens every door"
+            },
+            "size": 1,
+            "flags": [
+                "KLUDGEBIT"
+            ],
+            "actionMethod": null
+        }
+    ]
+}
