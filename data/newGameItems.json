@@ -222,6 +222,32 @@
                 "TAKEBIT"
             ],
             "actionMethod": null
+        },
+        {
+            "type": "VendingMachine",
+            "keyValue": "vending-machine-2f",
+            "locationKey": "vending-2f",
+            "name": "Fast Eddie's Vending Machine",
+            "synonyms": [
+                "vending machine",
+                "machine",
+                "fast eddie's machine",
+                "vendor"
+            ],
+            "adjectives": ["shiny", "talking"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A gleaming chrome vending machine that seems almost sentient. LED lights blink along its edges, and a digital display shows 'FAST EDDIE'S: WHEN IN DOUBT, FLUSH IT OUT!' The machine hums with electronic anticipation.",
+                "Active": "The vending machine's display is lit up with menu options. It seems to be waiting for your selection with mechanical patience.",
+                "EmptyPockets": "The vending machine stares at you judgmentally. Its coin slot seems to mock your empty pockets."
+            },
+            "size": 1000,
+            "flags": [
+                "SETPIECEBIT",
+                "CONTAINERBIT"
+            ],
+            "actionMethod": "action_vending_machine"
         }
     ]
 }

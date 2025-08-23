@@ -17,7 +17,8 @@ class Directions(Enum):
 class GameStates(Enum):
     EXPLORATION = 1
     DIALOGUESCENE = 2
-    GAMEOVER = 3
+    VENDING_MACHINE = 3
+    GAMEOVER = 4
 
 class Flags(Enum):
     """

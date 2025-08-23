@@ -8,12 +8,12 @@ from texticular.character import Player,NPC
 from dataclasses import dataclass
 from texticular.game_enums import GameStates
 from texticular.command_parser import Parser, ParseTree
+from texticular.ui.terminal_ui import TerminalUI
 import texticular.globals as g
 
 
 
-# logging.basicConfig(filename = "./../../data/texticular.log", level=logging.DEBUG, filemode='w', format='%(name)s - %(levelname)s - %(message)s')
-logging.basicConfig(level=logging.DEBUG, format='%(name)s - %(levelname)s - %(message)s')
+# Logging is now configured in __main__.py
 
 class Controller:
     # def __new__(cls, gamemap: dict, player: Player):
@@ -32,6 +32,7 @@ class Controller:
         self.player = player
         self.parser = Parser(game_objects=GameObject.objects_by_key)
         self.tokens = ParseTree()
+        self.ui = TerminalUI()
 
 
 
@@ -56,8 +57,6 @@ class Controller:
         )
 
         #self.player.name = input("Hello, What is your first name >>")
-
-        print(intro_text)
 
         intro_scene_part1 = (
             "You wake up disoriented with a pounding headache in a shabby looking hotel room " 
@@ -84,28 +83,34 @@ class Controller:
             f"your license and focus your still hazy eyes and barely make out that it says...{self.player.name}."
         )
 
-        self.response.extend([intro_scene_part1])
-        self.response.extend(["\n\n"])
-        self.response.extend([intro_scene_part2])
-        self.response.extend(["\n\n"])
-        self.response.extend([intro_scene_part3])
-        self.response.extend(["\n\n"])
+        # Use Rich UI for intro
+        intro_content = [
+            intro_text,
+            intro_scene_part1,
+            intro_scene_part2, 
+            intro_scene_part3
+        ]
+        
+        self.ui.display_intro(intro_content)
+        
+        # Get initial room description  
+        self.response = []
         self.commands["look"](self)
-        return self.render()
+        self.ui.display_room(self.response)
+        
+        return ""  # No need to return content, UI handles display
     def handle_input(self) ->bool:
         g.CONTROLLER = self
         tokens = self.tokens
-        # print("handle input called")
-        # print(vars(tokens))
         verb = tokens.action
         direct_object= tokens.direct_object_key
         indirect_object = tokens.indirect_object
-
-        # current_room = self.player.location
-        # room_action_method_exists = current_room.action_method_name
-        # if room_action_method_exists:
-        #     if current_room.action(context="M-ENTER"):
-        #         return True
+        
+        # Handle special game states (vending machine, dialogue, etc.)
+        if self.gamestate == GameStates.VENDING_MACHINE:
+            return self.handle_vending_machine_input()
+        
+        # Normal exploration game state continues below...
 
 
         if isinstance(tokens.direct_object_key, Directions):
@@ -113,34 +118,56 @@ class Controller:
             return self.commands[verb](controller=self)
 
 
+        logger = logging.getLogger(__name__)
+        
         #Try letting the indirect object handle the input first
         if indirect_object:
             target_object = self.tokens.indirect_object
-            custom_action_method_exists = target_object.action_method_name
-            if custom_action_method_exists:
-                logging.debug("indirect object handler")
+            if hasattr(target_object, 'action') and target_object.action_method_name:
+                logger.debug(f"Indirect object handler: {target_object.name}")
                 if target_object.action(controller=self, target=target_object):
                     return True
 
         #If that doesn't work try giving the direct object a change to handle the input
         if direct_object:
             target_object = self.tokens.direct_object
-            custom_action_method_exists = target_object.action_method_name
-            if custom_action_method_exists:
-                logging.debug("direct object handler")
+            if hasattr(target_object, 'action') and target_object.action_method_name:
+                logger.debug(f"Direct object handler: {target_object.name}")
                 if target_object.action(controller=self, target=target_object):
                     return True
 
         # fall through to the most generic verb response
-        logging.debug("generic verb handler")
-        return self.commands[verb](controller=self)
+        logger.debug(f"Generic verb handler: {verb}")
+        if verb in self.commands:
+            return self.commands[verb](controller=self)
+        else:
+            self.response.append(f"I don't know how to '{verb}' yet.")
+            return False
+    
+    def handle_vending_machine_input(self) -> bool:
+        """Handle input when the player is interacting with the vending machine."""
+        # Find the active vending machine
+        vending_machine = None
+        for obj in GameObject.objects_by_key.values():
+            if hasattr(obj, 'is_active') and obj.is_active:
+                vending_machine = obj
+                break
+        
+        if not vending_machine:
+            # No active vending machine, return to exploration
+            self.gamestate = GameStates.EXPLORATION
+            self.response.append("The vending machine has mysteriously disappeared.")
+            return False
+        
+        # Let the vending machine handle the input directly (bypasses parser)
+        return vending_machine.handle_vending_input(self)
 
     def get_game_object(self, key_value: str) -> GameObject:
         game_object = GameObject.objects_by_key.get(key_value)
         return game_object
 
     def get_input(self):
-        self.user_input = input(">>")
+        self.user_input = self.ui.get_input()
         self.player_input_history.append(self.user_input)
         self.user_input = self.user_input.strip()
         self.response = []
@@ -150,47 +177,48 @@ class Controller:
         return self.tokens.input_parsed
 
     def update(self):
+        # Handle special game states first (bypass parser)
+        if self.gamestate == GameStates.VENDING_MACHINE:
+            self.handle_vending_machine_input()
+            self.clocker()
+            return
+        
+        # Normal parsing for exploration mode
         if self.parse():
-            logging.debug(self.tokens)
+            logger = logging.getLogger(__name__)
+            logger.debug(f"Parse successful: {self.tokens}")
+            
             self.tokens.direct_object = self.get_game_object(self.tokens.direct_object_key)
             self.tokens.indirect_object = self.get_game_object(self.tokens.indirect_object_key)
-            logging.debug(f"""
-            Player Location (before handle input): {self.player.location.name}
-            Room Action Method: {self.player.location.action_method_name}
-            Direct Object Action Method: {GameObject.objects_by_key.get(self.tokens.direct_object_key).action_method_name}
-            """)
+            
+            # Safe debug logging that handles directions
+            direct_obj_method = "N/A (Direction)" if isinstance(self.tokens.direct_object_key, Directions) else (
+                GameObject.objects_by_key.get(self.tokens.direct_object_key).action_method_name 
+                if GameObject.objects_by_key.get(self.tokens.direct_object_key) else "None"
+            )
+            
+            logger.debug(f"Player: {self.player.location.name}, Room method: {self.player.location.action_method_name}, Object method: {direct_obj_method}")
             self.handle_input()
             self.clocker()
 
         else:
+            logger = logging.getLogger(__name__)
             self.response = [self.tokens.response]
-            logging.debug(self.tokens)
-            logging.debug(f"""
-            Player Location: {self.player.location.name}
-            Room Action Method: {self.player.location.action_method_name}
-            Direct Object Action Method: {logging.debug(GameObject.objects_by_key.get(self.tokens.direct_object_key).action_method_name)}
-            """)
+            logger.debug(f"Parse failed: {self.tokens}")
+            logger.debug(f"Player location: {self.player.location.name}")
 
 
 
     def render(self):
-        formatted_output = ''
-        for line in self.response:
-            if line.endswith("\n"):
-                formatted_output += line
-            else:
-                formatted_output += "\n".join(
-                    textwrap.wrap(
-                        line,
-                        width=150,
-                        replace_whitespace=False,
-                        break_long_words=False,
-                        break_on_hyphens=False
-                    )
-                ) + "\n"
-
-        formatted_output += f'\n\n{"-" * 150}'
-        return formatted_output
+        '''Display the response using Rich UI'''
+        if self.gamestate == GameStates.VENDING_MACHINE:
+            # Handle vending machine display
+            self.ui.display_vending_response(self.response)
+        else:
+            # Handle regular room/exploration display
+            self.ui.display_response(self.response)
+        
+        return ""  # UI handles display, no need to return text
 
     def clocker(self):
         pass
@@ -201,12 +229,14 @@ class Controller:
         self.commands["look"] = va.look
         self.commands["walk"] = va.walk
         self.commands["go"] = va.walk
+        self.commands["move"] = va.walk
         self.commands["get"] = va.take
         self.commands["take"] = va.take
         self.commands["drop"] = va.drop
         self.commands["open"] = va.open
         self.commands["close"] = va.close
         self.commands["put"] = va.put
+        self.commands["use"] = va.use
         self.commands["inventory"] = va.inventory
         self.commands["wipe"] = va.clean
         self.commands["wipe off"] = va.clean

@@ -1,15 +1,28 @@
 """responsible for loading and saving game objects to and from json"""
 
 import json
+import os
+from pathlib import Path
 import texticular.actions.story_item_actions as story_item_actions
 import texticular.actions.room_actions as room_actions
 from texticular.game_object import GameObject
 from texticular.game_enums import Flags, Directions
 from texticular.items.story_item import StoryItem, Inventory, Container
+from texticular.items.vending_machine import VendingMachine
 from texticular.rooms.room import Room
 from texticular.rooms.exit import  RoomExit
 from texticular.character import Player, NPC
 import inspect
+
+
+def get_data_path():
+    """Get the absolute path to the data directory, regardless of where the script is run from."""
+    # Get the directory of this file
+    current_file = Path(__file__).resolve()
+    # Navigate up to project root (texticular.ai) and into data folder
+    project_root = current_file.parent.parent.parent  # from src/texticular/game_loader.py to project root
+    data_path = project_root / "data"
+    return str(data_path)
 
 
 def encode_to_json(game_objects: dict, save_file_name: str, root_element_name: str):
@@ -106,6 +119,25 @@ def decode_story_item_fromjson(dct):
     return constructed_item
 
 
+def decode_vending_machine_fromjson(dct):
+    """Decode VendingMachine from JSON configuration."""
+    constructed_machine = VendingMachine(
+        key_value=dct["keyValue"],
+        name=dct["name"],
+        descriptions=dct["descriptions"],
+        location_key=dct["locationKey"],
+        flags=generate_game_object_flags(dct["flags"]),
+        synonyms=dct.get("synonyms", None),
+        adjectives=dct.get("adjectives", None)
+    )
+    
+    constructed_machine.current_description = dct["currentDescription"]
+    constructed_machine.examine_description = dct["examineDescription"]
+    constructed_machine.action_method_name = dct["actionMethod"]
+    
+    return constructed_machine
+
+
 def decode_room_fromjson(dct):
     constructed_room = Room(
         key_value=dct["keyValue"],
@@ -172,11 +204,21 @@ def decode_character_from_json(dct):
 def load_story_items(config_file_path):
     config = load_json(config_file_path)
     items = [item for item in config["items"] if item["type"] == "StoryItem"]
+    vending_machines = [item for item in config["items"] if item["type"] == "VendingMachine"]
+    
     storyitems = {}
+    
+    # Load regular story items
     for item in items:
         #print(json.dumps(item, indent=4))
         decoded_item = decode_story_item_fromjson(item)
         storyitems[decoded_item.key_value] = decoded_item
+    
+    # Load vending machines
+    for machine in vending_machines:
+        decoded_machine = decode_vending_machine_fromjson(machine)
+        storyitems[decoded_machine.key_value] = decoded_machine
+        
     return storyitems
 
 def load_containers(config_file_path):
@@ -210,22 +252,44 @@ def load_game_rooms(config_file_path):
 
 
 def load_game_map(game_manifest, manifest_key="newGame"):
+    # Handle both absolute and relative paths for game_manifest
+    if not os.path.isabs(game_manifest):
+        data_path = get_data_path()
+        game_manifest = os.path.join(data_path, game_manifest)
+    
     manifest = load_json(game_manifest)
     room_config = manifest[manifest_key]["roomConfig"]
     item_config = manifest[manifest_key]["itemConfig"]
     character_config = manifest["newGame"]["characterConfig"]
 
-    relative_path = "./../../data/"
+    data_path = get_data_path()
     gamemap = {}
 
-    gamemap["items"] = load_story_items(f"{relative_path}{item_config}")
-    gamemap["containers"] = load_containers(f"{relative_path}{item_config}")
-    gamemap["rooms"] = load_game_rooms(f"{relative_path}{room_config}")
-    gamemap["characters"] = load_characters(f"{relative_path}{character_config}")
+    gamemap["items"] = load_story_items(os.path.join(data_path, item_config))
+    gamemap["containers"] = load_containers(os.path.join(data_path, item_config))
+    gamemap["rooms"] = load_game_rooms(os.path.join(data_path, room_config))
+    gamemap["characters"] = load_characters(os.path.join(data_path, character_config))
+
+    # Place items in their designated rooms
+    place_items_in_rooms(gamemap)
 
     wire_story_item_action_funcs()
     wire_room_action_funcs()
     return gamemap
+
+
+def place_items_in_rooms(gamemap):
+    """Place all loaded items into their designated rooms."""
+    # Combine all item types
+    all_items = {}
+    all_items.update(gamemap["items"])
+    all_items.update(gamemap["containers"])
+    
+    # Place each item in its designated room
+    for item_key, item in all_items.items():
+        if item.location_key and item.location_key in gamemap["rooms"]:
+            target_room = gamemap["rooms"][item.location_key]
+            target_room.items.append(item)
 
 def wire_story_item_action_funcs():
     """Use the inspect module to return all of the functions in the item_actions module
@@ -295,7 +359,7 @@ def wire_room_action_funcs():
 
 
 if __name__ ==  "__main__":
-    gamemap = load_game_map("./../../data/GameConfigManifest.json")
+    print("YEllow")
     player = gamemap["characters"]["player"]
     #player.inventory.add_item(gamemap["items"]["room201-nightStand-lemon"])
     #print(json.dumps(player, indent=4, default=player.encode_tojson))

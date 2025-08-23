@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from texticular.game_enums import *
-
+from texticular.game_object import GameObject
 
 if TYPE_CHECKING:
     from texticular.game_controller import Controller
@@ -149,6 +149,23 @@ def unlock(controller: Controller):
 def inventory(controller: Controller):
     controller.response.extend(controller.player.inventory.look_inside())
     return True
+
+
+def use(controller):
+    """Handle 'use' command - primarily for special objects like vending machines."""
+    target = controller.tokens.direct_object
+    
+    if not target:
+        controller.response.append("Use what?")
+        return False
+        
+    # Check if object has a custom action method
+    if hasattr(target, 'action') and target.action_method_name:
+        return target.action(controller=controller, target=target)
+    
+    # Default use behavior - most things can't be "used"
+    controller.response.append(f"You can't use the {target.name}.")
+    return False
 
 
 def talk(controller):

@@ -9,6 +9,7 @@ KNOWN_VERBS = [
     "open",
     "close",
     "put",
+    "use",
     "inventory",
     "wipe",
     "wipe off"

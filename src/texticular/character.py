@@ -18,8 +18,9 @@ class Character(GameObject):
 
 class Player(Character):
     def __init__(self, key_value: str, name: str, descriptions: dict, sex: str = "?", hp: int = 100, hpoo: int = 80,
-                 inventory: Inventory = None, location_key: str = None, flags: list = None):
+                 inventory: Inventory = None, location_key: str = None, flags: list = None, money: float = 0.00):
         self.hpoo = hpoo
+        self.money = money
         super().__init__(key_value, name, descriptions, sex, hp, inventory, location_key, flags)
 
     def go_to(self, location_key: str):
@@ -108,6 +109,7 @@ class Player(Character):
             "sex": self.sex,
             "hp": self.hp,
             "hpoo": self.hpoo,
+            "money": getattr(self, 'money', 0.00),
             "locationKey": self.location_key,
             "currentDescription": self._current_description,
             "examineDescription": self._examine_description,
@@ -116,6 +118,27 @@ class Player(Character):
             "actionMethod": self.action_method_name,
             "inventory": self.inventory.encode_tojson(self.inventory)
         }
+    
+    def add_money(self, amount: float):
+        """Add money to the player's wallet."""
+        if not hasattr(self, 'money'):
+            self.money = 0.00
+        self.money += amount
+        
+    def spend_money(self, amount: float) -> bool:
+        """Spend money if player has enough. Returns True if successful."""
+        if not hasattr(self, 'money'):
+            self.money = 0.00
+        if self.money >= amount:
+            self.money -= amount
+            return True
+        return False
+        
+    def has_money(self, amount: float) -> bool:
+        """Check if player has at least the specified amount of money."""
+        if not hasattr(self, 'money'):
+            self.money = 0.00
+        return self.money >= amount
 
 
 
