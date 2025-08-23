@@ -10,6 +10,7 @@ from texticular.game_enums import GameStates
 from texticular.command_parser import Parser, ParseTree
 from texticular.ui.fixed_layout_ui import FixedLayoutUI
 from texticular.gameplay_logger import get_logger
+from texticular.npc_manager import get_npc_manager
 import texticular.globals as g
 
 
@@ -38,6 +39,11 @@ class Controller:
         self.score = 0
         self.poop_level = 45  # Starting urgency
         self.logger = get_logger()  # Get gameplay logger
+        self.active_npc = None  # Currently talking to NPC
+        
+        # Initialize NPC system
+        self.npc_manager = get_npc_manager()
+        self._setup_npcs()
 
 
 
@@ -187,6 +193,10 @@ class Controller:
             self.handle_vending_machine_input()
             self.clocker()
             return
+        elif self.gamestate == GameStates.DIALOGUESCENE:
+            self.handle_dialogue_input()
+            self.clocker()
+            return
         
         # Normal parsing for exploration mode
         parse_success = self.parse()
@@ -301,6 +311,92 @@ class Controller:
         # Render the screen
         self.ui.render_screen(game_state)
 
+    def handle_dialogue_input(self):
+        """Handle input during dialogue scenes."""
+        npc_manager = get_npc_manager()
+        player_id = self.player.key_value
+        conversation = npc_manager.get_active_conversation(player_id)
+        
+        if not conversation:
+            # No active conversation, return to exploration
+            self.gamestate = GameStates.EXPLORATION
+            self.active_npc = None
+            self.response = ["The conversation has ended."]
+            return
+        
+        current_node = conversation.current_node()
+        
+        # Handle end of conversation
+        if not current_node.choices or current_node.node_id == "EXIT":
+            # Conversation has ended
+            npc_manager.end_conversation(player_id)
+            self.gamestate = GameStates.EXPLORATION
+            
+            # Check for special dialogue outcomes
+            if current_node.node_id == "SMALL_REQUEST" or current_node.node_id == "GRATEFUL_EXIT":
+                # Janitor gives player money
+                self.player.add_money(0.50)
+                self.response = [current_node.text, "The janitor tosses you 50 cents!"]
+                self.ui.display_dialogue_response(" ".join(self.response))
+            else:
+                self.response = [current_node.text]
+                self.ui.display_dialogue_response(current_node.text)
+            
+            self.active_npc = None
+            return
+        
+        # Parse user choice
+        try:
+            choice_num = int(self.user_input.strip()) - 1  # Convert to 0-based index
+            
+            if 0 <= choice_num < len(current_node.choices):
+                # Valid choice
+                success = npc_manager.make_dialogue_choice(player_id, choice_num)
+                
+                if success:
+                    # Move to next node
+                    updated_conversation = npc_manager.get_active_conversation(player_id)
+                    if updated_conversation:
+                        next_node = updated_conversation.current_node()
+                        
+                        # Display next dialogue
+                        self.ui.display_dialogue_interface(
+                            npc_name=self.active_npc.name,
+                            dialogue_text=next_node.text,
+                            choices=[choice.text for choice in next_node.choices]
+                        )
+                    else:
+                        # Conversation ended
+                        self.gamestate = GameStates.EXPLORATION
+                        self.active_npc = None
+                else:
+                    self.response = ["Invalid choice. Please try again."]
+            else:
+                self.response = [f"Please choose a number between 1 and {len(current_node.choices)}."]
+                
+        except ValueError:
+            # Handle special commands during dialogue
+            if self.user_input.strip().lower() in ['quit', 'exit', 'leave']:
+                npc_manager.end_conversation(player_id)
+                self.gamestate = GameStates.EXPLORATION
+                self.active_npc = None
+                self.response = ["You end the conversation."]
+            else:
+                self.response = [f"Please enter a number (1-{len(current_node.choices)}) or 'quit' to leave."]
+    
+    def _setup_npcs(self):
+        """Initialize NPCs from character data."""
+        from texticular.character import NPC
+        
+        # Find all NPCs in the global object registry (loaded from JSON)
+        npcs = {key: obj for key, obj in GameObject.objects_by_key.items() 
+                if isinstance(obj, NPC)}
+        
+        # Register each NPC with the NPC manager
+        for npc_key, npc in npcs.items():
+            self.npc_manager.register_npc(npc)
+            self.logger.log_event("npc_registered", {"name": npc.name, "location": npc.location_key})
+    
     def clocker(self):
         # Increment turn and increase poop urgency
         self.turn_count += 1
@@ -325,6 +421,8 @@ class Controller:
         self.commands["sit"] = va.sit  # Add sit command
         self.commands["inventory"] = va.inventory
         self.commands["i"] = va.inventory  # Add shortcut for inventory
+        self.commands["talk"] = va.talk  # Add talk command for NPCs
+        self.commands["speak"] = va.talk  # Add speak as alias for talk
         self.commands["wipe"] = va.clean
         self.commands["wipe off"] = va.clean
 

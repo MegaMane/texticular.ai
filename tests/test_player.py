@@ -29,7 +29,16 @@ def teardown_function(function):
         print("tearind down everything else")
 
 def test_player():
-    assert Player()
+    player = Player(
+        key_value="test_player",
+        name="Test Player", 
+        descriptions={"Main": "A test player character"}
+    )
+    assert player is not None
+    assert player.key_value == "test_player"
+    assert player.name == "Test Player"
+    assert player.hpoo == 80  # Default value
+    assert player.money == 0.00  # Default value
 
 def test_floating_point():
     assert (1.2 + 2.5) == approx(3.7)

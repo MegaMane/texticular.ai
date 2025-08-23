@@ -43,6 +43,30 @@
                 ],
                 "actionMethod": null
             }
+        },
+        {
+            "type": "NPC",
+            "keyValue": "janitor", 
+            "name": "Janitor",
+            "synonyms": [
+                "Janitor",
+                "Custodian",
+                "Cleaner", 
+                "Worker",
+                "Man"
+            ],
+            "adjectives": [],
+            "locationKey": "eastHallway",
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A grizzled janitor in stained overalls, mopping the floor with methodical precision. He looks like he's seen everything this hotel has to offer - and probably cleaned up after most of it. There's a knowing gleam in his weathered eyes."
+            },
+            "flags": [
+                "SETPIECEBIT"
+            ],
+            "actionMethod": null,
+            "dialogueFile": "janitor_dialogue.json"
         }
     ]
 }

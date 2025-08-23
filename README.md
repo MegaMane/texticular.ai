@@ -3,6 +3,10 @@
 A Game Written in Python Modeled After Classic Interactive Fiction or Text Adventures, with A relatively simple to use, reusable core engine 
 that is config driven. Json files loaded to create rooms, items, characters, conversations etc.
 
+## Development with Claude Code
+
+This project is actively developed using [Claude Code](https://claude.ai/code), Anthropic's AI-powered development environment. Claude Code enables rapid iteration, comprehensive testing, and intelligent code analysis throughout the development process. The project demonstrates best practices for AI-assisted game development, including automated testing, documentation generation, and system architecture design.
+
 Game Initialization
 ----------------------
 

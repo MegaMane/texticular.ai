@@ -190,4 +190,47 @@ def sit(controller):
 
 
 def talk(controller):
-    raise NotImplementedError
+    """Handle 'talk' command - talk to NPCs."""
+    from texticular.npc_manager import get_npc_manager
+    
+    target = controller.tokens.direct_object
+    
+    if not target:
+        controller.response.append("Talk to whom?")
+        return False
+    
+    # Check if the target is an NPC
+    npc_manager = get_npc_manager()
+    npc = npc_manager.get_npc(target.key_value)
+    
+    if not npc:
+        controller.response.append(f"You can't talk to the {target.name}.")
+        return False
+    
+    # Check if NPC is in the same room as player
+    if npc.location_key != controller.player.location_key:
+        controller.response.append(f"The {target.name} isn't here.")
+        return False
+    
+    # Start conversation
+    player_id = controller.player.key_value
+    conversation = npc_manager.start_conversation(player_id, npc.key_value)
+    
+    if conversation:
+        # Set game state to dialogue mode
+        from texticular.game_enums import GameStates
+        controller.gamestate = GameStates.DIALOGUESCENE
+        controller.active_npc = npc
+        controller.response.append(f"You approach the {npc.name}.")
+        
+        # Display conversation UI
+        current_node = conversation.current_node()
+        controller.ui.display_dialogue_interface(
+            npc_name=npc.name,
+            dialogue_text=current_node.text,
+            choices=[choice.text for choice in current_node.choices]
+        )
+        return True
+    else:
+        controller.response.append(f"The {npc.name} doesn't seem interested in talking right now.")
+        return False

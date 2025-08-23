@@ -13,6 +13,8 @@ KNOWN_VERBS = [
     "put",
     "use",
     "sit",  # Add sit verb
+    "talk",  # Add talk verb for NPCs
+    "speak", # Add speak as alias for talk
     "inventory",
     "i",  # Add inventory shortcut
     "wipe",

@@ -209,6 +209,18 @@ def decode_character_from_json(dct):
         )
 
         return constructed_player
+    elif dct["type"] == "NPC":
+        constructed_npc = NPC(
+            key_value=dct["keyValue"],
+            name=dct["name"],
+            descriptions=dct["descriptions"],
+            location_key=dct["locationKey"],
+            flags=generate_game_object_flags(dct["flags"]),
+            synonyms=dct.get("synonyms", []),
+            adjectives=dct.get("adjectives", []),
+            dialogue_file=dct.get("dialogueFile")
+        )
+        return constructed_npc
     else:
         raise NotImplementedError
 

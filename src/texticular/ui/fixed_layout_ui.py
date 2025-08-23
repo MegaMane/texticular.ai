@@ -352,3 +352,89 @@ class FixedLayoutUI:
     def exit_vending_machine(self):
         """Exit vending machine mode - no special action needed for fixed layout."""
         pass
+    
+    def display_dialogue_interface(self, npc_name: str, dialogue_text: str, choices: List[str]):
+        """Display NPC dialogue interface with the fixed layout."""
+        self.clear_screen()
+        
+        # Create dialogue layout
+        layout = Layout()
+        layout.split_column(
+            Layout(name="header", size=3),
+            Layout(name="body", ratio=1),
+            Layout(name="footer", size=6)
+        )
+        
+        # Header with NPC info
+        title = Text(f"💬 CONVERSATION WITH {npc_name.upper()}", style="bold cyan")
+        header_panel = Panel(title, box=box.DOUBLE, style="cyan")
+        layout["header"].update(header_panel)
+        
+        # Body with dialogue text
+        dialogue_content = []
+        
+        # Format dialogue text with proper wrapping
+        words = dialogue_text.split()
+        lines = []
+        current_line = []
+        max_width = 60
+        
+        for word in words:
+            if len(" ".join(current_line + [word])) <= max_width:
+                current_line.append(word)
+            else:
+                if current_line:
+                    lines.append(" ".join(current_line))
+                    current_line = [word]
+                else:
+                    lines.append(word)
+        
+        if current_line:
+            lines.append(" ".join(current_line))
+        
+        for line in lines:
+            dialogue_content.append(Text(line, style="white"))
+        
+        body_panel = Panel("\n".join([str(c) for c in dialogue_content]), 
+                          title=f"{npc_name} says...", 
+                          box=box.ROUNDED, 
+                          style="white")
+        layout["body"].update(body_panel)
+        
+        # Footer with choices
+        footer_content = []
+        if choices:
+            footer_content.append(Text("Choose your response:", style="bold yellow"))
+            footer_content.append("")
+            for i, choice in enumerate(choices):
+                choice_text = f"{i + 1}. {choice}"
+                if len(choice_text) > 70:
+                    choice_text = choice_text[:67] + "..."
+                footer_content.append(Text(choice_text, style="green"))
+        else:
+            footer_content.append(Text("Press ENTER to continue...", style="dim yellow"))
+        
+        footer_panel = Panel("\n".join([str(c) for c in footer_content]), 
+                           title="Response Options", 
+                           box=box.ROUNDED, 
+                           style="yellow")
+        layout["footer"].update(footer_panel)
+        
+        self.console.print(layout)
+    
+    def display_dialogue_response(self, response_text: str):
+        """Display a dialogue response or result."""
+        self.clear_screen()
+        
+        response_panel = Panel(response_text, 
+                              title="💬 Conversation Result", 
+                              box=box.ROUNDED, 
+                              style="green")
+        
+        self.console.print(response_panel)
+        
+        # Brief pause
+        try:
+            input("\nPress ENTER to continue...")
+        except (EOFError, KeyboardInterrupt):
+            pass

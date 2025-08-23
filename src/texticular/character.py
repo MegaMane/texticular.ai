@@ -144,4 +144,27 @@ class Player(Character):
 
 
 class NPC(Character):
-    pass
+    def __init__(self, key_value: str, name: str, descriptions: dict, location_key: str = None, 
+                 flags: list = None, synonyms: list = None, adjectives: list = None, 
+                 dialogue_file: str = None):
+        super().__init__(key_value, name, descriptions, location_key=location_key, flags=flags)
+        self.synonyms = synonyms or []
+        self.adjectives = adjectives or []
+        self.dialogue_file = dialogue_file
+        
+    def encode_tojson(self, o):
+        """Serialize NPC to Json"""
+        return {
+            "type": self.__class__.__name__,
+            "keyValue": self.key_value,
+            "name": self.name,
+            "synonyms": self.synonyms,
+            "adjectives": self.adjectives,
+            "locationKey": self.location_key,
+            "currentDescription": self._current_description,
+            "examineDescription": self._examine_description,
+            "descriptions": self.descriptions,
+            "flags": [flag.name for flag in self.flags],
+            "actionMethod": self.action_method_name,
+            "dialogueFile": self.dialogue_file
+        }

@@ -1,0 +1,440 @@
+{
+  "title": "Conversation with Janitor",
+  "rootNodeID": "START",
+  "nodes": [
+    {
+      "nodeId": "START",
+      "text": "The janitor looks up from his mop bucket with a knowing smile. 'Well well, another guest looking for the facilities, I bet. Name's Hank. Let me guess - you drank Fast Eddie's special brew?'",
+      "choices": [
+        {
+          "choice": "How did you know?",
+          "leadsToId": "EXPERIENCE"
+        },
+        {
+          "choice": "I need to find a bathroom urgently!",
+          "leadsToId": "URGENT"
+        },
+        {
+          "choice": "Do you have any money I could borrow?",
+          "leadsToId": "MONEY_DIRECT"
+        },
+        {
+          "choice": "Just looking around...",
+          "leadsToId": "CASUAL"
+        }
+      ]
+    },
+    {
+      "nodeId": "EXPERIENCE", 
+      "text": "Hank chuckles grimly. 'Son, I've been cleaning up after Fast Eddie's victims for nigh on fifteen years. I can spot the telltale signs from three floors away. That wild look in your eyes, the way you're shifting from foot to foot...'",
+      "choices": [
+        {
+          "choice": "Can you help me?",
+          "leadsToId": "HELP_REQUEST"
+        },
+        {
+          "choice": "Where's the nearest bathroom?",
+          "leadsToId": "BATHROOM_INFO"
+        },
+        {
+          "choice": "Do you have any spare change?",
+          "leadsToId": "MONEY_REQUEST"
+        }
+      ]
+    },
+    {
+      "nodeId": "URGENT",
+      "text": "Hank nods sympathetically. 'I hear ya, friend. The house special hits different, don't it? Problem is, all the public restrooms are locked up tighter than a drum. But I might know a way to help...'",
+      "choices": [
+        {
+          "choice": "Please, I'll do anything!",
+          "leadsToId": "DESPERATE"
+        },
+        {
+          "choice": "What kind of help?",
+          "leadsToId": "DEAL_DETAILS"
+        },
+        {
+          "choice": "Can you lend me some money?",
+          "leadsToId": "MONEY_REQUEST"
+        }
+      ]
+    },
+    {
+      "nodeId": "MONEY_DIRECT",
+      "text": "Hank raises an eyebrow and grins. 'Straight to the point, I like that. Most folks beat around the bush. Yeah, I might have some spare change rattling around. But nothing in this world comes free, friend.'",
+      "choices": [
+        {
+          "choice": "What do you want in return?",
+          "leadsToId": "DEAL_DETAILS"
+        },
+        {
+          "choice": "I'm desperate, name your price!",
+          "leadsToId": "DESPERATE"
+        },
+        {
+          "choice": "Never mind then...",
+          "leadsToId": "DECLINE"
+        }
+      ]
+    },
+    {
+      "nodeId": "CASUAL",
+      "text": "Hank gives you a skeptical look. 'Just looking around, eh? In a hotel hallway, talking to the janitor? Son, I wasn't born yesterday. You got that Fast Eddie look about you.'",
+      "choices": [
+        {
+          "choice": "Okay fine, I'm in trouble...",
+          "leadsToId": "ADMIT_TROUBLE"
+        },
+        {
+          "choice": "What's the Fast Eddie look?",
+          "leadsToId": "EXPERIENCE"
+        },
+        {
+          "choice": "I should go...",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "HELP_REQUEST",
+      "text": "Hank leans on his mop handle. 'Well now, I appreciate good manners. Tell you what - I got about 50 cents burning a hole in my pocket. But I ain't no charity. You do a little favor for old Hank, and that change is yours.'",
+      "choices": [
+        {
+          "choice": "What kind of favor?",
+          "leadsToId": "DEAL_DETAILS"
+        },
+        {
+          "choice": "Yes! Anything!",
+          "leadsToId": "ACCEPT_DEAL"
+        },
+        {
+          "choice": "That doesn't sound right...",
+          "leadsToId": "SUSPICIOUS"
+        }
+      ]
+    },
+    {
+      "nodeId": "BATHROOM_INFO",
+      "text": "Hank shakes his head sadly. 'All locked up, friend. This place went to hell in a handbasket when the new management took over. But there's a vending machine down south that sells... remedies. Course, you'll need some coin for that.'",
+      "choices": [
+        {
+          "choice": "Can you lend me money for it?",
+          "leadsToId": "MONEY_REQUEST"
+        },
+        {
+          "choice": "Where exactly is this vending machine?",
+          "leadsToId": "VENDING_DIRECTIONS"
+        },
+        {
+          "choice": "This place is terrible!",
+          "leadsToId": "AGREE_HOTEL"
+        }
+      ]
+    },
+    {
+      "nodeId": "MONEY_REQUEST",
+      "text": "Hank scratches his chin thoughtfully. 'Money, eh? Well, I got about 50 cents. But see, I was saving that for my coffee break. If you want it, you'll need to make it worth my while.'",
+      "choices": [
+        {
+          "choice": "What do you want me to do?",
+          "leadsToId": "DEAL_DETAILS"
+        },
+        {
+          "choice": "I'll pay you back double!",
+          "leadsToId": "PROMISE_PAYBACK"
+        },
+        {
+          "choice": "Come on, have a heart!",
+          "leadsToId": "APPEAL_COMPASSION"
+        }
+      ]
+    },
+    {
+      "nodeId": "DEAL_DETAILS",
+      "text": "Hank glances around conspiratorially and lowers his voice. 'Nothing too crazy, mind you. Just need someone to... relocate a certain item from the supply closet to somewhere more convenient for me. You scratch my back, I scratch yours.'",
+      "choices": [
+        {
+          "choice": "That sounds like stealing...",
+          "leadsToId": "MORAL_CONCERN"
+        },
+        {
+          "choice": "What item exactly?",
+          "leadsToId": "ITEM_DETAILS"
+        },
+        {
+          "choice": "Deal! Where's this supply closet?",
+          "leadsToId": "ACCEPT_DEAL"
+        },
+        {
+          "choice": "I can't do that.",
+          "leadsToId": "DECLINE"
+        }
+      ]
+    },
+    {
+      "nodeId": "DESPERATE",
+      "text": "Hank's expression softens slightly. 'Alright, alright, I can see you're really hurtin'. Tell you what - there's a supply closet key hidden in one of the couch cushions in room 203. You find that key, bring it to me, and these 50 cents are yours. Fair deal?'",
+      "choices": [
+        {
+          "choice": "Yes! Thank you!",
+          "leadsToId": "ACCEPT_SIMPLE_DEAL"
+        },
+        {
+          "choice": "Why do you want the key?",
+          "leadsToId": "KEY_REASON"
+        },
+        {
+          "choice": "There has to be another way...",
+          "leadsToId": "OTHER_OPTIONS"
+        }
+      ]
+    },
+    {
+      "nodeId": "ACCEPT_DEAL",
+      "text": "Hank grins and extends his hand. 'Now we're talking! There's a supply closet in room 203 - you'll find the key hidden in the couch cushions. Bring me that key, and these 50 cents are all yours, friend.'",
+      "choices": [
+        {
+          "choice": "Consider it done!",
+          "leadsToId": "DEAL_ACCEPTED"
+        },
+        {
+          "choice": "Wait, what do you need the key for?",
+          "leadsToId": "KEY_REASON"
+        }
+      ]
+    },
+    {
+      "nodeId": "ACCEPT_SIMPLE_DEAL",
+      "text": "Hank nods approvingly. 'Good man! The key's in room 203, hidden in that ratty old couch. Once you bring it to me, I'll hand over the coins and you can get yourself sorted. We got ourselves a deal!'",
+      "choices": [
+        {
+          "choice": "I'll be right back!",
+          "leadsToId": "DEAL_ACCEPTED"
+        },
+        {
+          "choice": "Room 203, couch cushions, got it!",
+          "leadsToId": "DEAL_ACCEPTED"
+        }
+      ]
+    },
+    {
+      "nodeId": "DEAL_ACCEPTED",
+      "text": "Hank tips his cap. 'Pleasure doing business with you, friend. I'll be right here waiting. And hey - once you get that vending machine situation sorted, come back and tell old Hank how it worked out!'",
+      "choices": []
+    },
+    {
+      "nodeId": "KEY_REASON",
+      "text": "Hank shifts uncomfortably. 'Well now, that's... that's my business, ain't it? Look, I ain't gonna lie to you - there's some good cleaning supplies in there that management's been hoarding. A man's got to make a living, you understand?'",
+      "choices": [
+        {
+          "choice": "I understand. Deal!",
+          "leadsToId": "DEAL_ACCEPTED"
+        },
+        {
+          "choice": "I can't help you steal supplies.",
+          "leadsToId": "MORAL_DECLINE"
+        },
+        {
+          "choice": "Isn't there another way to get money?",
+          "leadsToId": "OTHER_OPTIONS"
+        }
+      ]
+    },
+    {
+      "nodeId": "MORAL_CONCERN",
+      "text": "Hank waves his hand dismissively. 'Stealing? Nah, friend. That key rightfully belongs with the janitor - me! Management just keeps it locked up to make my job harder. I'm just asking you to help me get what should be mine anyway.'",
+      "choices": [
+        {
+          "choice": "When you put it that way... okay!",
+          "leadsToId": "ACCEPT_DEAL"
+        },
+        {
+          "choice": "I still don't feel right about it.",
+          "leadsToId": "MORAL_DECLINE"
+        },
+        {
+          "choice": "Can't you just ask management for it?",
+          "leadsToId": "MANAGEMENT_RESPONSE"
+        }
+      ]
+    },
+    {
+      "nodeId": "MORAL_DECLINE",
+      "text": "Hank shrugs. 'I respect that, friend. Not everyone's cut out for the gray areas of life. Tell you what though - if you change your mind, you know where to find me. Good luck with your... situation.'",
+      "choices": [
+        {
+          "choice": "Thanks for understanding.",
+          "leadsToId": "EXIT"
+        },
+        {
+          "choice": "Wait! Maybe I could reconsider...",
+          "leadsToId": "RECONSIDER"
+        }
+      ]
+    },
+    {
+      "nodeId": "DECLINE",
+      "text": "Hank nods knowingly. 'Can't say I'm surprised. Most folks these days don't want to get their hands dirty. Well, good luck finding that money elsewhere, friend. You're gonna need it.'",
+      "choices": [
+        {
+          "choice": "Maybe I was too hasty...",
+          "leadsToId": "RECONSIDER"
+        },
+        {
+          "choice": "There has to be another way.",
+          "leadsToId": "OTHER_OPTIONS"
+        },
+        {
+          "choice": "Thanks anyway.",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "OTHER_OPTIONS",
+      "text": "Hank chuckles grimly. 'Other options? Friend, you're in the Fleabag Hotel at 2 AM with a belly full of Fast Eddie's finest. Your other options are: hold it till morning, or find yourself a very understanding tree outside.'",
+      "choices": [
+        {
+          "choice": "You're right, let's make a deal.",
+          "leadsToId": "ACCEPT_DEAL"
+        },
+        {
+          "choice": "I'll take my chances elsewhere.",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "RECONSIDER",
+      "text": "Hank's eyes light up. 'Now that's the spirit! Sometimes a man's got to do what a man's got to do. So, we got ourselves a deal? Key from room 203's couch for 50 cents?'",
+      "choices": [
+        {
+          "choice": "Yes, deal!",
+          "leadsToId": "DEAL_ACCEPTED"
+        },
+        {
+          "choice": "Actually, never mind.",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "ADMIT_TROUBLE",
+      "text": "Hank nods sagely. 'There we go, that's more like it. Honesty's always the best policy. So what kind of trouble we talking about here? The digestive kind, I'm guessing?'",
+      "choices": [
+        {
+          "choice": "Yes, and I need help!",
+          "leadsToId": "HELP_REQUEST"
+        },
+        {
+          "choice": "Do you have any money I could borrow?",
+          "leadsToId": "MONEY_REQUEST"
+        }
+      ]
+    },
+    {
+      "nodeId": "SUSPICIOUS",
+      "text": "Hank shrugs. 'Look friend, I ain't asking you to rob a bank. Just need that key moved from one place to another. But if you're not comfortable with it, no hard feelings.'",
+      "choices": [
+        {
+          "choice": "Alright, I'll do it.",
+          "leadsToId": "ACCEPT_DEAL"
+        },
+        {
+          "choice": "I still don't like it.",
+          "leadsToId": "DECLINE"
+        }
+      ]
+    },
+    {
+      "nodeId": "VENDING_DIRECTIONS",
+      "text": "Hank points south. 'Head down that way to the main hallway, then south again. Can't miss it - big, ugly machine with Fast Eddie's face on it. Though like I said, you'll need some coin.'",
+      "choices": [
+        {
+          "choice": "About that money...",
+          "leadsToId": "MONEY_REQUEST"
+        },
+        {
+          "choice": "Thanks for the directions.",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "AGREE_HOTEL",
+      "text": "Hank nods grimly. 'You ain't wrong there, friend. This place has seen better decades. Management don't care about nothing but the bottom line. That's why I gotta look out for myself, you understand?'",
+      "choices": [
+        {
+          "choice": "That's why you need that key?",
+          "leadsToId": "KEY_REASON"
+        },
+        {
+          "choice": "Can you still help me with money?",
+          "leadsToId": "MONEY_REQUEST"
+        }
+      ]
+    },
+    {
+      "nodeId": "PROMISE_PAYBACK",
+      "text": "Hank chuckles. 'Double, eh? Friend, I've been around long enough to know that desperate promises and reality are two different things. How about we stick to something more... tangible?'",
+      "choices": [
+        {
+          "choice": "Fine, what do you want?",
+          "leadsToId": "DEAL_DETAILS"
+        },
+        {
+          "choice": "Come on, trust me!",
+          "leadsToId": "APPEAL_COMPASSION"
+        }
+      ]
+    },
+    {
+      "nodeId": "APPEAL_COMPASSION",
+      "text": "Hank's expression softens slightly. 'Look kid, I feel for you, I really do. But this ain't charity. I work hard for what little I got. You want my help, you gotta help me first.'",
+      "choices": [
+        {
+          "choice": "Okay, what do you need?",
+          "leadsToId": "DEAL_DETAILS"
+        },
+        {
+          "choice": "I understand. Thanks anyway.",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "ITEM_DETAILS",
+      "text": "Hank looks around nervously. 'Nothing major - just some cleaning supplies that rightfully belong in my cart anyway. Some bleach, industrial soap, you know. Stuff I need to do my job properly.'",
+      "choices": [
+        {
+          "choice": "That seems reasonable. Deal!",
+          "leadsToId": "ACCEPT_DEAL"
+        },
+        {
+          "choice": "Still sounds like stealing to me.",
+          "leadsToId": "MORAL_CONCERN"
+        }
+      ]
+    },
+    {
+      "nodeId": "MANAGEMENT_RESPONSE",
+      "text": "Hank snorts. 'Management? They don't give two hoots about the janitor. I've been asking for proper supplies for months. They just tell me to \"make do with less.\" Well, I'm tired of making do.'",
+      "choices": [
+        {
+          "choice": "I see your point. Let's do this.",
+          "leadsToId": "ACCEPT_DEAL"
+        },
+        {
+          "choice": "Maybe try asking again?",
+          "leadsToId": "OTHER_OPTIONS"
+        }
+      ]
+    },
+    {
+      "nodeId": "EXIT",
+      "text": "Hank returns to his mopping. 'Well, good luck to you then, friend. If you change your mind, you know where to find me. These floors ain't gonna clean themselves.'",
+      "choices": []
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "session_id": "session_1755977978",
+  "start_time": "2025-08-23T12:39:38.207228",
+  "events": [
+    {
+      "timestamp": "2025-08-23T12:39:38.207375",
+      "event_type": "npc_registered",
+      "data": {
+        "name": "Janitor",
+        "location": "eastHallway"
+      }
+    }
+  ],
+  "current_state": {},
+  "statistics": {
+    "commands_entered": 0,
+    "rooms_visited": [],
+    "items_interacted": [],
+    "failed_commands": 0,
+    "successful_commands": 0
+  }
+}
