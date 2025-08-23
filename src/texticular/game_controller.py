@@ -8,7 +8,8 @@ from texticular.character import Player,NPC
 from dataclasses import dataclass
 from texticular.game_enums import GameStates
 from texticular.command_parser import Parser, ParseTree
-from texticular.ui.terminal_ui import TerminalUI
+from texticular.ui.fixed_layout_ui import FixedLayoutUI
+from texticular.gameplay_logger import get_logger
 import texticular.globals as g
 
 
@@ -32,7 +33,11 @@ class Controller:
         self.player = player
         self.parser = Parser(game_objects=GameObject.objects_by_key)
         self.tokens = ParseTree()
-        self.ui = TerminalUI()
+        self.ui = FixedLayoutUI()
+        self.turn_count = 0
+        self.score = 0
+        self.poop_level = 45  # Starting urgency
+        self.logger = get_logger()  # Get gameplay logger
 
 
 
@@ -93,10 +98,10 @@ class Controller:
         
         self.ui.display_intro(intro_content)
         
-        # Get initial room description  
+        # Get initial room description and render first screen
         self.response = []
         self.commands["look"](self)
-        self.ui.display_room(self.response)
+        self.render_game_screen()
         
         return ""  # No need to return content, UI handles display
     def handle_input(self) ->bool:
@@ -184,7 +189,9 @@ class Controller:
             return
         
         # Normal parsing for exploration mode
-        if self.parse():
+        parse_success = self.parse()
+        
+        if parse_success:
             logger = logging.getLogger(__name__)
             logger.debug(f"Parse successful: {self.tokens}")
             
@@ -206,27 +213,105 @@ class Controller:
             self.response = [self.tokens.response]
             logger.debug(f"Parse failed: {self.tokens}")
             logger.debug(f"Player location: {self.player.location.name}")
+        
+        # Log the command and response
+        response_text = ""
+        if self.response:
+            if isinstance(self.response, list):
+                response_text = " ".join([str(r) for r in self.response])
+            else:
+                response_text = str(self.response)
+        
+        # Create game state snapshot for logging
+        game_state = {
+            "room_name": self.player.location.name if self.player.location else "Unknown",
+            "turn": self.turn_count,
+            "score": self.score,
+            "poop_level": self.poop_level,
+            "inventory": [item.name for item in self.player.inventory.items] if hasattr(self.player, 'inventory') and hasattr(self.player.inventory, 'items') else []
+        }
+        
+        # Log the command
+        self.logger.log_command(
+            command=self.user_input,
+            parse_success=parse_success,
+            response=response_text,
+            game_state=game_state
+        )
 
 
 
     def render(self):
-        '''Display the response using Rich UI'''
-        if self.gamestate == GameStates.VENDING_MACHINE:
-            # Handle vending machine display
-            self.ui.display_vending_response(self.response)
-        else:
-            # Handle regular room/exploration display
-            self.ui.display_response(self.response)
-        
+        '''Display the response using the new fixed layout UI'''
+        self.render_game_screen()
         return ""  # UI handles display, no need to return text
 
+    def render_game_screen(self):
+        '''Render the complete game screen with current state'''
+        # Prepare exits list
+        exits = []
+        if hasattr(self.player.location, 'exits') and self.player.location.exits:
+            for direction, room_exit in self.player.location.exits.items():
+                # Handle both string and Directions enum
+                dir_name = direction.name if hasattr(direction, 'name') else str(direction).upper()
+                exit_desc = f"{dir_name} - {room_exit.name}"
+                if hasattr(room_exit, 'is_locked') and room_exit.is_locked:
+                    exit_desc += " (locked)"
+                exits.append(exit_desc)
+        
+        # Prepare inventory list
+        inventory = []
+        if hasattr(self.player, 'inventory') and self.player.inventory:
+            if hasattr(self.player.inventory, 'items') and self.player.inventory.items:
+                for item in self.player.inventory.items:
+                    inventory.append(item.name)
+        
+        # Prepare response text
+        response_text = ""
+        if self.response:
+            if isinstance(self.response, list):
+                response_text = " ".join([str(r) for r in self.response])
+            else:
+                response_text = str(self.response)
+        
+        # Get room description and handle if it's a list
+        room_description = ""
+        if self.player.location:
+            desc = self.player.location.describe()
+            if isinstance(desc, list):
+                room_description = " ".join([str(d) for d in desc])
+            else:
+                room_description = str(desc)
+        else:
+            room_description = "You are nowhere."
+        
+        # Create game state for UI
+        game_state = {
+            "room_name": self.player.location.name if self.player.location else "Unknown",
+            "description": room_description,
+            "exits": exits,
+            "turn": self.turn_count,
+            "score": self.score,
+            "poop_level": self.poop_level,
+            "inventory": inventory,
+            "last_command": self.user_input if hasattr(self, 'user_input') else "",
+            "response": response_text
+        }
+        
+        # Render the screen
+        self.ui.render_screen(game_state)
+
     def clocker(self):
-        pass
+        # Increment turn and increase poop urgency
+        self.turn_count += 1
+        self.poop_level = min(100, self.poop_level + 2)  # Increase urgency each turn
     def main_loop(self):
         pass
 
     def set_commands(self):
         self.commands["look"] = va.look
+        self.commands["examine"] = va.look  # Add examine as alias for look
+        self.commands["search"] = va.look   # Add search as alias for look
         self.commands["walk"] = va.walk
         self.commands["go"] = va.walk
         self.commands["move"] = va.walk
@@ -237,7 +322,9 @@ class Controller:
         self.commands["close"] = va.close
         self.commands["put"] = va.put
         self.commands["use"] = va.use
+        self.commands["sit"] = va.sit  # Add sit command
         self.commands["inventory"] = va.inventory
+        self.commands["i"] = va.inventory  # Add shortcut for inventory
         self.commands["wipe"] = va.clean
         self.commands["wipe off"] = va.clean
 

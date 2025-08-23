@@ -17,11 +17,24 @@ import inspect
 
 def get_data_path():
     """Get the absolute path to the data directory, regardless of where the script is run from."""
-    # Get the directory of this file
+    # First try to find data directory relative to current working directory (development mode)
+    cwd_data_path = Path.cwd() / "data"
+    if cwd_data_path.exists():
+        return str(cwd_data_path)
+    
+    # If not found, try relative to this file (for installed package)
     current_file = Path(__file__).resolve()
-    # Navigate up to project root (texticular.ai) and into data folder
+    # Navigate up to project root and into data folder
     project_root = current_file.parent.parent.parent  # from src/texticular/game_loader.py to project root
     data_path = project_root / "data"
+    
+    # If that doesn't exist either, try a few more common locations
+    if not data_path.exists():
+        # Try in the same directory as the package
+        package_data_path = current_file.parent / "data"
+        if package_data_path.exists():
+            return str(package_data_path)
+    
     return str(data_path)
 
 

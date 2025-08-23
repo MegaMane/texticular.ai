@@ -1,7 +1,9 @@
 KNOWN_VERBS = [
     "look",
+    "examine",  # Add examine verb
+    "search",   # Add search verb
     "walk",
-    "go",
+    "go", 
     "move",
     "get",
     "take",
@@ -10,7 +12,9 @@ KNOWN_VERBS = [
     "close",
     "put",
     "use",
+    "sit",  # Add sit verb
     "inventory",
+    "i",  # Add inventory shortcut
     "wipe",
     "wipe off"
 ]

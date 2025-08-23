@@ -27,15 +27,14 @@ def action_room201_purpleHandPrints(controller: Controller, target: GameObject) 
 def action_room201_couch(controller: Controller, target: GameObject) -> bool:
     tokens = controller.tokens
     couch = target
-    if tokens.verb == "sit":
-        couch.current_description = couch.descriptions["Sitting"]
+    if tokens.action == "sit":
+        couch.current_description = "Sitting"
         controller.response.append("You sit on the couch.")
-        controller.response.extend(controller.player.go_to(couch.key_value))
+        controller.response.append(couch.describe())  # Show the sitting description
         return True
-    elif tokens.verb in ["stand", "get off", "get up"]:
-        couch.current_description = couch.descriptions["Main"]
+    elif tokens.action in ["stand", "get off", "get up"]:
+        couch.current_description = "Main"
         controller.response.append("You get off the couch.")
-        controller.response.extend(controller.player.go_to(couch.location_key))
         return True
     return False
 

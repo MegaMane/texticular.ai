@@ -168,5 +168,26 @@ def use(controller):
     return False
 
 
+def sit(controller):
+    """Handle 'sit' command - sit on objects like chairs, couches, beds."""
+    target = controller.tokens.direct_object
+    
+    if not target:
+        controller.response.append("Sit on what?")
+        return False
+    
+    # Check if object has a custom action method for sitting
+    if hasattr(target, 'action') and target.action_method_name:
+        return target.action(controller=controller, target=target)
+    
+    # Default sit behavior for most objects
+    if "chair" in target.name.lower() or "couch" in target.name.lower() or "bed" in target.name.lower():
+        controller.response.append(f"You sit on the {target.name}.")
+        return True
+    else:
+        controller.response.append(f"You can't sit on the {target.name}.")
+        return False
+
+
 def talk(controller):
     raise NotImplementedError

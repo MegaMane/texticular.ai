@@ -152,7 +152,14 @@ class Parser:
         """
         expanded_adjectives = self.expand_adjectives(adjectives)
         if expanded_adjectives:
-            matches = [f'{adj} {syn}' for adj in expanded_adjectives for syn in synonyms]
+            matches = []
+            for adj in expanded_adjectives:
+                for syn in synonyms:
+                    # Add spaced version (existing behavior)
+                    matches.append(f'{adj} {syn}')
+                    # Add concatenated version (new functionality)
+                    concatenated = f'{adj}{syn}'.replace(' ', '')
+                    matches.append(concatenated)
             matches.extend(synonyms)
         else:
             matches = synonyms

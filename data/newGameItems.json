@@ -68,6 +68,32 @@
             ],
             "actionMethod": null
         },
+        {
+            "type": "StoryItem",
+            "keyValue": "fiftycentcoins",
+            "locationKey": "room201-couch",
+            "name": "Coins",
+            "synonyms": [
+                "Coins",
+                "Money",
+                "Change",
+                "Cents"
+            ],
+            "adjectives": [
+                "Fifty",
+                "Cent"
+            ],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "Two quarters that add up to fifty cents. Just enough for the vending machine's cheapest option."
+            },
+            "size": 1,
+            "flags": [
+                "TAKEBIT"
+            ],
+            "actionMethod": null
+        },
        {
             "type": "StoryItem",
             "keyValue": "room201-purpleHandPrints",
@@ -188,13 +214,14 @@
             "currentDescription": "Main",
             "examineDescription": "Main",
             "descriptions": {
-                "Main": "There is an obnoxious orange couch in the corner"
+                "Main": "There is an obnoxious orange couch in the corner. The cushions look lumpy and well-worn, like they might be hiding something.",
+                "Sitting": "You are sitting on the obnoxious orange couch. The cushions are lumpy and smell faintly of Fast Eddie's."
             },
             "slots": 5,
             "size": 99,
             "keyObject": null,
             "itemKeyValues": [
-                "key-eastHallway2f-supplyCloset"
+                "fiftycentcoins"
             ],
             "flags": [
                 "CONTAINERBIT",
@@ -205,7 +232,7 @@
         {
             "type": "StoryItem",
             "keyValue": "key-eastHallway2f-supplyCloset",
-            "locationKey": "room201-couch",
+            "locationKey": "nowhereLand",
             "name": "Supply Closet Key",
             "synonyms": [
                 "Supply Closet Key",

@@ -1,0 +1,26 @@
+# Texticular Text Adventure Engine Dependencies
+
+# Rich terminal UI library for formatted text output, panels, and interactive elements
+rich>=13.0.0
+
+# Standard library dependencies (included with Python, listed for documentation)
+# These are imported but don't need to be installed separately:
+# - enum (for game enums)
+# - logging (for debug output)
+# - textwrap (for text formatting)
+# - dataclasses (for structured data)
+# - itertools (for object counting)
+# - functools (for decorators)
+# - json (for data loading/saving)
+# - os (for file system operations)
+# - pathlib (for path handling)
+# - re (for regular expressions in parser)
+# - inspect (for dynamic function loading)
+# - typing (for type hints)
+
+# Development/Testing dependencies
+pytest>=7.0.0
+
+# Future dependencies that may be added:
+# requests  # For potential web API features (mentioned in project plan)
+# flask     # For potential web UI (mentioned in ToDo.md)
