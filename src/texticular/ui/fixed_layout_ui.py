@@ -12,6 +12,9 @@ from rich.text import Text
 from rich.align import Align
 from rich.progress import Progress, BarColumn, TextColumn
 from rich import box
+from rich.console import Group
+from rich.padding import Padding
+from texticular.ui.text_formatter import TextFormatter
 
 
 class FixedLayoutUI:
@@ -28,6 +31,8 @@ class FixedLayoutUI:
         self.last_command = ""
         self.last_response = ""
         self.inventory_preview = []
+        self.text_formatter = TextFormatter(width=65)  # Adjust for game area width
+        self.game_area_height = 25  # Available height for scrollable content
         
     def clear_screen(self):
         """Clear the terminal screen."""
@@ -57,47 +62,86 @@ class FixedLayoutUI:
         title = Text("TEXTICULAR: Chapter 1 - You Gotta Go!", style="bold cyan")
         return Panel(Align.center(title), box=box.DOUBLE, style="cyan")
     
-    def create_game_area(self, room_name: str, description: str, exits: List[str]) -> Panel:
-        """Create the main game content area."""
-        content = []
+    def create_game_area(self, room_name: str, description: str, exits: List[str], 
+                        last_response: str = "") -> Panel:
+        """Create the main game content area with proper formatting and scrolling support."""
         
-        # Location header with icon
-        location_text = Text(f"📍 {room_name}", style="bold yellow")
-        content.append(location_text)
-        content.append("")
+        # Use the text formatter to create properly formatted content
+        formatted_content = self.text_formatter.format_game_content(
+            room_name, description, exits, last_response
+        )
         
-        # Room description - format nicely
-        desc_lines = description.split(". ")
-        for line in desc_lines:
-            if line.strip():
-                # Wrap long lines
-                words = line.strip().split()
-                current_line = []
-                for word in words:
-                    if len(" ".join(current_line + [word])) <= 50:
-                        current_line.append(word)
-                    else:
-                        if current_line:
-                            content.append(Text(" ".join(current_line) + ("." if line.endswith(".") else ""), style="white"))
-                            current_line = [word]
-                        else:
-                            current_line.append(word)
-                
-                if current_line:
-                    content.append(Text(" ".join(current_line) + ("." if line.endswith(".") else ""), style="white"))
+        # Check if content exceeds available height and handle scrolling
+        if len(formatted_content) > self.game_area_height:
+            # Show the most recent content (scroll to bottom)
+            # Keep the location header and show recent content
+            visible_content = self._create_scrollable_content(formatted_content)
+        else:
+            visible_content = formatted_content
         
-        content.append("")
+        # Convert to renderable format
+        renderable_content = self._convert_to_renderable(visible_content)
         
-        # Exits section
-        if exits:
-            content.append(Text("🚪 Exits:", style="bold green"))
-            for exit_info in exits:
-                content.append(Text(f"  {exit_info}", style="green"))
+        return Panel(
+            Group(*renderable_content), 
+            title="Game World", 
+            box=box.ROUNDED, 
+            style="white"
+        )
+    
+    def _create_scrollable_content(self, content: List[Text]) -> List[Text]:
+        """Create scrollable content when there's overflow."""
+        # Always keep the location header (first few lines)
+        header_lines = 3  # Location, empty line, start of description
+        footer_lines = 5  # Space for exits and scroll indicator
+        content_lines = self.game_area_height - header_lines - footer_lines
         
-        return Panel("\n".join([str(c) for c in content]), 
-                    title="Game World", 
-                    box=box.ROUNDED, 
-                    style="white")
+        # Keep header
+        visible_content = content[:header_lines]
+        
+        # Add scrollable middle content (most recent)
+        if len(content) > header_lines + footer_lines:
+            # Find where exits start
+            exits_start = len(content)
+            for i, text_obj in enumerate(content):
+                if isinstance(text_obj, Text) and "🚪 Exits:" in text_obj.plain:
+                    exits_start = i
+                    break
+            
+            # Calculate what content to show
+            content_end = exits_start
+            content_start = max(header_lines, content_end - content_lines)
+            
+            # Add content with scroll indicator
+            if content_start > header_lines:
+                visible_content.append(Text("↑ [Scroll: more content above] ↑", style="dim yellow"))
+            
+            visible_content.extend(content[content_start:content_end])
+            
+            # Add exits if they exist
+            if exits_start < len(content):
+                visible_content.extend(content[exits_start:])
+            
+            # Add scroll indicator if needed
+            if content_end < len(content) - footer_lines:
+                visible_content.append(Text("↓ [Scroll: more content below] ↓", style="dim yellow"))
+        else:
+            visible_content = content
+            
+        return visible_content
+    
+    def _convert_to_renderable(self, content: List[Text]) -> List:
+        """Convert Text objects to renderable format."""
+        renderable = []
+        for text_obj in content:
+            if isinstance(text_obj, Text):
+                if text_obj.plain:  # Non-empty text
+                    renderable.append(text_obj)
+                else:  # Empty line
+                    renderable.append(Text())
+            else:
+                renderable.append(Text(str(text_obj)))
+        return renderable
     
     def create_hud(self, turn: int, score: int, location: str, poop_level: int, inventory: List[str]) -> Panel:
         """Create the HUD/status area."""
@@ -159,41 +203,20 @@ class FixedLayoutUI:
                     box=box.ROUNDED, 
                     style="magenta")
     
-    def create_footer(self, last_command: str, response: str) -> Panel:
-        """Create the command/response footer."""
+    def create_footer(self, last_command: str, response: str = "") -> Panel:
+        """Create the command/response footer - now focuses on simple responses."""
         footer_content = []
         
         # Show last command if exists
         if last_command:
             footer_content.append(Text(f">> {last_command}", style="bold white"))
         
-        # Show response, wrapped to fit
-        if response:
-            # Limit response length and wrap
-            max_length = 150
-            if len(response) > max_length:
-                response = response[:max_length] + "..."
-            
-            # Word wrap response
-            words = response.split()
-            lines = []
-            current_line = []
-            
-            for word in words:
-                if len(" ".join(current_line + [word])) <= 75:
-                    current_line.append(word)
-                else:
-                    if current_line:
-                        lines.append(" ".join(current_line))
-                        current_line = [word]
-                    else:
-                        lines.append(word)
-            
-            if current_line:
-                lines.append(" ".join(current_line))
-            
-            for line in lines[:2]:  # Show max 2 lines
-                footer_content.append(Text(line, style="yellow"))
+        # Only show simple responses here - complex responses go to game world
+        if response and not self._is_complex_response(response):
+            # Simple response - truncate if too long
+            if len(response) > 100:
+                response = response[:97] + "..."
+            footer_content.append(Text(response, style="yellow"))
         
         # Always show command prompt
         footer_content.append("")
@@ -203,6 +226,16 @@ class FixedLayoutUI:
                     title="Command", 
                     box=box.ROUNDED, 
                     style="green")
+    
+    def _is_complex_response(self, response: str) -> bool:
+        """Determine if a response should be shown in game world instead of footer."""
+        complex_indicators = [
+            'VENDING MACHINE', 'MENU', 'look inside', 'see...', 
+            '***', '====', 'Commands:', '$', 'Insert coins'
+        ]
+        return (len(response) > 150 or 
+                any(indicator in response for indicator in complex_indicators) or
+                response.count('\n') > 2)
     
     def render_screen(self, game_state: Dict[str, Any]):
         """
@@ -234,12 +267,22 @@ class FixedLayoutUI:
         last_command = game_state.get("last_command", "")
         response = game_state.get("response", "")
         
+        # Determine where to show the response
+        if response and self._is_complex_response(response):
+            # Complex response goes to game world
+            game_world_response = response
+            footer_response = ""
+        else:
+            # Simple response goes to footer
+            game_world_response = ""
+            footer_response = response
+        
         # Create and populate layout
         layout = self.create_layout()
         layout["header"].update(self.create_header())
-        layout["game"].update(self.create_game_area(room_name, description, exits))
+        layout["game"].update(self.create_game_area(room_name, description, exits, game_world_response))
         layout["hud"].update(self.create_hud(turn, score, room_name, poop_level, inventory))
-        layout["footer"].update(self.create_footer(last_command, response))
+        layout["footer"].update(self.create_footer(last_command, footer_response))
         
         # Render to console
         self.console.print(layout)

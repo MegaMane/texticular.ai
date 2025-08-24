@@ -29,7 +29,9 @@ controller = Controller(gamemap, player)
 controller.go()  # Rich UI handles display
 while controller.gamestate.name != "GAMEOVER":
     controller.get_input()
-    controller.update()
+    should_continue = controller.update()
+    if should_continue == False:  # Explicit check for quit command
+        break
     controller.render()  # Rich UI handles display
 
 

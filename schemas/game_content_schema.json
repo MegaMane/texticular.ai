@@ -1,0 +1,374 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://texticular.ai/schemas/game_content_schema.json",
+  "title": "Texticular Game Content Schema",
+  "description": "JSON schema for validating Texticular game content including rooms, items, and story elements",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version for compatibility tracking"
+    },
+    "rooms": {
+      "type": "object",
+      "description": "Game room definitions",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "$ref": "#/definitions/Room"
+        }
+      }
+    },
+    "items": {
+      "type": "object", 
+      "description": "Game item definitions",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "$ref": "#/definitions/Item"
+        }
+      }
+    },
+    "npcs": {
+      "type": "object",
+      "description": "Non-player character definitions", 
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "$ref": "#/definitions/NPC"
+        }
+      }
+    },
+    "story_content": {
+      "type": "object",
+      "description": "Structured story content with semantic labeling",
+      "properties": {
+        "intro": {
+          "$ref": "#/definitions/StoryContent"
+        },
+        "scenes": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9_-]+$": {
+              "$ref": "#/definitions/StoryContent"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Room": {
+      "type": "object",
+      "required": ["name", "content"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name of the room"
+        },
+        "content": {
+          "$ref": "#/definitions/StoryContent"
+        },
+        "exits": {
+          "type": "object",
+          "description": "Available exits from this room",
+          "patternProperties": {
+            "^(north|south|east|west|up|down|northeast|northwest|southeast|southwest)$": {
+              "$ref": "#/definitions/Exit"
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "description": "Items present in this room",
+          "items": {
+            "type": "string"
+          }
+        },
+        "npcs": {
+          "type": "array", 
+          "description": "NPCs present in this room",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Exit": {
+      "type": "object",
+      "required": ["target", "description"],
+      "properties": {
+        "target": {
+          "type": "string",
+          "description": "ID of the target room"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of this exit"
+        },
+        "locked": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this exit is locked"
+        },
+        "key_required": {
+          "type": "string",
+          "description": "Item ID required to unlock this exit"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Game condition that must be met to use this exit"
+        }
+      }
+    },
+    "Item": {
+      "type": "object", 
+      "required": ["name", "content"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name of the item"
+        },
+        "content": {
+          "$ref": "#/definitions/StoryContent"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["story_item", "container", "vending_machine", "key", "consumable", "readable"],
+          "description": "Type of item for behavior determination"
+        },
+        "takeable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this item can be picked up"
+        },
+        "useable": {
+          "type": "boolean", 
+          "default": false,
+          "description": "Whether this item can be used"
+        },
+        "container_contents": {
+          "type": "array",
+          "description": "Items contained within this container",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vending_menu": {
+          "$ref": "#/definitions/VendingMenu",
+          "description": "Menu structure for vending machine items"
+        }
+      }
+    },
+    "VendingMenu": {
+      "type": "object",
+      "required": ["greeting", "items"],
+      "properties": {
+        "greeting": {
+          "$ref": "#/definitions/StoryContent"
+        },
+        "items": {
+          "type": "object",
+          "patternProperties": {
+            "^[0-9]+$": {
+              "type": "object",
+              "required": ["name", "price", "description"],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "description": {
+                  "type": "string"
+                },
+                "stock": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": -1,
+                  "description": "Stock count, -1 for unlimited"
+                }
+              }
+            }
+          }
+        },
+        "commands": {
+          "type": "array",
+          "description": "Available vending machine commands",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "NPC": {
+      "type": "object",
+      "required": ["name", "content"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name of the NPC"
+        },
+        "content": {
+          "$ref": "#/definitions/StoryContent"
+        },
+        "dialogue": {
+          "$ref": "#/definitions/DialogueTree"
+        },
+        "shop": {
+          "$ref": "#/definitions/VendingMenu",
+          "description": "Shop interface if this NPC is a merchant"
+        }
+      }
+    },
+    "DialogueTree": {
+      "type": "object",
+      "required": ["entry_point", "nodes"],
+      "properties": {
+        "entry_point": {
+          "type": "string",
+          "description": "ID of the starting dialogue node"
+        },
+        "nodes": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9_-]+$": {
+              "$ref": "#/definitions/DialogueNode"
+            }
+          }
+        }
+      }
+    },
+    "DialogueNode": {
+      "type": "object",
+      "required": ["content"],
+      "properties": {
+        "content": {
+          "$ref": "#/definitions/StoryContent"
+        },
+        "choices": {
+          "type": "array",
+          "description": "Player response choices",
+          "items": {
+            "type": "object",
+            "required": ["text", "next_node"],
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Choice text shown to player"
+              },
+              "next_node": {
+                "type": "string",
+                "description": "ID of the next dialogue node"
+              },
+              "condition": {
+                "type": "string",
+                "description": "Game condition required for this choice"
+              }
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "description": "Game actions triggered by this node",
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["give_item", "give_money", "set_flag", "trigger_event"]
+              },
+              "parameters": {
+                "type": "object",
+                "description": "Action-specific parameters"
+              }
+            }
+          }
+        }
+      }
+    },
+    "StoryContent": {
+      "type": "object",
+      "description": "Structured content with semantic labeling for flexible rendering",
+      "properties": {
+        "segments": {
+          "type": "array",
+          "description": "Ordered list of content segments",
+          "items": {
+            "$ref": "#/definitions/ContentSegment"
+          }
+        }
+      }
+    },
+    "ContentSegment": {
+      "type": "object",
+      "required": ["type", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "room_name",
+            "description", 
+            "dialogue",
+            "narration",
+            "system_message",
+            "vending_machine_header",
+            "vending_machine_menu",
+            "vending_machine_instructions",
+            "container_contents",
+            "item_description",
+            "exit_list",
+            "inventory_list",
+            "status_update",
+            "error_message",
+            "success_message",
+            "flavor_text",
+            "tutorial_text",
+            "formatted_block"
+          ],
+          "description": "Semantic type of this content segment"
+        },
+        "text": {
+          "type": "string",
+          "description": "The actual text content"
+        },
+        "style_hints": {
+          "type": "object",
+          "description": "Optional styling hints for renderers",
+          "properties": {
+            "emphasis": {
+              "type": "string",
+              "enum": ["bold", "italic", "underline", "dim"]
+            },
+            "color": {
+              "type": "string",
+              "enum": ["red", "green", "blue", "yellow", "magenta", "cyan", "white"]
+            },
+            "preserve_formatting": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to preserve exact spacing and line breaks"
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional metadata for this content segment",
+          "properties": {
+            "priority": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "Display priority (1=highest, 10=lowest)"
+            },
+            "context": {
+              "type": "string",
+              "description": "Context where this content should be displayed"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["version"]
+}

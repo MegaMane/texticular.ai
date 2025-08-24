@@ -188,6 +188,12 @@ class Controller:
         return self.tokens.input_parsed
 
     def update(self):
+        # Handle quit commands first (before any parsing)
+        if self.user_input.lower().strip() in ['quit', 'exit', 'q']:
+            self.response = ["Thanks for playing! Goodbye!"]
+            self.render_game_screen()
+            return False  # Signal to exit game loop
+        
         # Handle special game states first (bypass parser)
         if self.gamestate == GameStates.VENDING_MACHINE:
             self.handle_vending_machine_input()
@@ -248,6 +254,8 @@ class Controller:
             response=response_text,
             game_state=game_state
         )
+        
+        return True  # Continue game loop by default
 
 
 
