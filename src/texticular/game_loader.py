@@ -298,8 +298,7 @@ def load_game_map(game_manifest, manifest_key="newGame"):
     # Place items in their designated rooms
     place_items_in_rooms(gamemap)
 
-    wire_story_item_action_funcs()
-    wire_room_action_funcs()
+    # No longer using dynamic binding - actions handled by direct dispatch
     return gamemap
 
 

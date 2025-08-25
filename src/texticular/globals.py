@@ -7,18 +7,24 @@ KNOWN_VERBS = [
     "move",
     "get",
     "take",
+    "pickup",   # Add pickup verb
     "drop",
     "open",
     "close",
     "put",
     "use",
+    "turn on",  # Add turn on verb
+    "turn off", # Add turn off verb
     "sit",  # Add sit verb
+    "stand",    # Add stand verb
+    "get up",   # Add get up verb
     "talk",  # Add talk verb for NPCs
     "speak", # Add speak as alias for talk
     "inventory",
     "i",  # Add inventory shortcut
     "wipe",
-    "wipe off"
+    "wipe off",
+    "rub"  # Add rub verb for genie
 ]
 
 SINGLE_VERB_COMMANDS = [

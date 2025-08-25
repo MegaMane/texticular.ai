@@ -1,9 +1,9 @@
 {
-  "session_id": "session_1756095697",
-  "start_time": "2025-08-24T21:21:37.952226",
+  "session_id": "session_1756103152",
+  "start_time": "2025-08-24T23:25:52.505797",
   "events": [
     {
-      "timestamp": "2025-08-24T21:21:37.952678",
+      "timestamp": "2025-08-24T23:25:52.506115",
       "event_type": "npc_registered",
       "data": {
         "name": "Janitor",
@@ -11,12 +11,12 @@
       }
     },
     {
-      "timestamp": "2025-08-24T21:21:46.083981",
+      "timestamp": "2025-08-24T23:26:10.389094",
       "event_type": "command",
       "data": {
-        "input": "wipe the hand prints",
+        "input": "look in the couch cushions",
         "parse_success": true,
-        "response": "Try as you might the hand prints are here to stay.",
+        "response": "There is an obnoxious orange couch in the corner. The cushions look lumpy and well-worn, like they might be hiding something.",
         "game_state": {
           "room_name": "Room 201",
           "turn": 1,
@@ -26,14 +26,702 @@
         },
         "turn": 1
       }
+    },
+    {
+      "timestamp": "2025-08-24T23:26:23.767416",
+      "event_type": "command",
+      "data": {
+        "input": "open the cushions",
+        "parse_success": true,
+        "response": "You open the couch cushions and inside you see:     Coins: Two quarters that add up to fifty cents. Just enough for the vending machine's cheapest option.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 2,
+          "score": 0,
+          "poop_level": 49,
+          "inventory": []
+        },
+        "turn": 2
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:26:29.679516",
+      "event_type": "command",
+      "data": {
+        "input": "take the coins",
+        "parse_success": true,
+        "response": "You don't see a Coins here!",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 3,
+          "score": 0,
+          "poop_level": 51,
+          "inventory": []
+        },
+        "turn": 3
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:26:33.587174",
+      "event_type": "command",
+      "data": {
+        "input": "look",
+        "parse_success": true,
+        "response": "You are in the Room 201: As you look around the hotel room you see an old TV with rabbit ears that looks like it came straight out of the 1950's. Against the wall there is a beat up night stand with a little drawer built into it and black rotary phone on top. Next to it is a lumpy old bed that looks like it's seen better days, with a dark brown stain on the sheets and a funny smell coming from it. There is an obnoxious orange couch in the corner next to a small window smudged with sticky purple hand prints. The stuffing is coming out of the cushions which are also spotted with purple, and the floor is covered with cans of Fast Eddie's Colon Cleanse. A little lemon with a big attitude sits on the night stand. On the floor you see a small folded piece of paper, looks like a note. A bizarre little genie bobblehead with googly eyes and an eerie smile. It holds a tiny sign reading 'Ask Me Anything...but you might WISH you hadn't hahaha!' Its head bounces slightly as if it's alive. On the floor you see a small folded piece of paper, looks like a note. A little lemon with a big attitude sits on the night stand. A bizarre little genie bobblehead with googly eyes and an eerie smile. It holds a tiny sign reading 'Ask Me Anything...but you might WISH you hadn't hahaha!' Its head bounces slightly as if it's alive. To the WEST is the DOOR to that sweet sweet porcelain throne. To the EAST the DOOR leads outside to the hallway...where hopefully there are toilets. \n\n---Exits---\n\n To the WEST is the Bathroom Door : is the DOOR to that sweet sweet porcelain throne.\n To the EAST is the Hallway Door : the DOOR leads outside to the hallway...where hopefully there are toilets.\n",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 4,
+          "score": 0,
+          "poop_level": 53,
+          "inventory": []
+        },
+        "turn": 4
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:26:42.835408",
+      "event_type": "command",
+      "data": {
+        "input": "open the couch",
+        "parse_success": true,
+        "response": "You open the couch and inside you see:     Coins: Two quarters that add up to fifty cents. Just enough for the vending machine's cheapest option.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 5,
+          "score": 0,
+          "poop_level": 55,
+          "inventory": []
+        },
+        "turn": 5
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:26:47.650425",
+      "event_type": "command",
+      "data": {
+        "input": "take the coins",
+        "parse_success": true,
+        "response": "Taken.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 6,
+          "score": 0,
+          "poop_level": 57,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 6
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:03.268168",
+      "event_type": "command",
+      "data": {
+        "input": "use the phone",
+        "parse_success": true,
+        "response": "You can't use the Black Rotary Phone.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 7,
+          "score": 0,
+          "poop_level": 59,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 7
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:06.751796",
+      "event_type": "command",
+      "data": {
+        "input": "call on the phone",
+        "parse_success": false,
+        "response": "Command: \"call on the phone\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 7,
+          "score": 0,
+          "poop_level": 59,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 7
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:14.753174",
+      "event_type": "command",
+      "data": {
+        "input": "lay on the bed",
+        "parse_success": false,
+        "response": "Command: \"lay on the bed\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 7,
+          "score": 0,
+          "poop_level": 59,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 7
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:20.902105",
+      "event_type": "command",
+      "data": {
+        "input": "get on the bed",
+        "parse_success": true,
+        "response": "The Lumpy Old Bed won't budge.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 8,
+          "score": 0,
+          "poop_level": 61,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 8
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:24.305443",
+      "event_type": "command",
+      "data": {
+        "input": "sit on the bed",
+        "parse_success": true,
+        "response": "You sit on the Lumpy Old Bed.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 9,
+          "score": 0,
+          "poop_level": 63,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 9
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:26.191871",
+      "event_type": "command",
+      "data": {
+        "input": "get up",
+        "parse_success": true,
+        "response": "You stand up and stretch your legs.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 10,
+          "score": 0,
+          "poop_level": 65,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 10
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:33.909765",
+      "event_type": "command",
+      "data": {
+        "input": "lay down",
+        "parse_success": false,
+        "response": "Command: \"lay down\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 10,
+          "score": 0,
+          "poop_level": 65,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 10
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:38.491767",
+      "event_type": "command",
+      "data": {
+        "input": "lay down on bed",
+        "parse_success": false,
+        "response": "Command: \"lay down on bed\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 10,
+          "score": 0,
+          "poop_level": 65,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 10
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:43.033621",
+      "event_type": "command",
+      "data": {
+        "input": "sleep on bed",
+        "parse_success": false,
+        "response": "Command: \"sleep on bed\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 10,
+          "score": 0,
+          "poop_level": 65,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 10
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:27:55.857984",
+      "event_type": "command",
+      "data": {
+        "input": "smell the sheets",
+        "parse_success": false,
+        "response": "Command: \"smell the sheets\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 10,
+          "score": 0,
+          "poop_level": 65,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 10
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:28:01.898658",
+      "event_type": "command",
+      "data": {
+        "input": "take the sheets",
+        "parse_success": false,
+        "response": "I don't see a sheets here!",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 10,
+          "score": 0,
+          "poop_level": 65,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 10
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:28:16.833932",
+      "event_type": "command",
+      "data": {
+        "input": "wipe the handprints",
+        "parse_success": true,
+        "response": "You really put a spit shine on the Sticky Purple Hand Prints...but it looks much the same.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 11,
+          "score": 0,
+          "poop_level": 67,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 11
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:28:29.742506",
+      "event_type": "command",
+      "data": {
+        "input": "touch the handprints",
+        "parse_success": false,
+        "response": "Command: \"touch the handprints\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 11,
+          "score": 0,
+          "poop_level": 67,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 11
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:28:41.243214",
+      "event_type": "command",
+      "data": {
+        "input": "look at the cans",
+        "parse_success": true,
+        "response": "Empty cans of Fast Eddie's Colon Cleanse litter the floor. The labels boast about their powerful cleansing properties. No wonder you feel so terrible.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 12,
+          "score": 0,
+          "poop_level": 69,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 12
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:28:44.588078",
+      "event_type": "command",
+      "data": {
+        "input": "drink the cans",
+        "parse_success": false,
+        "response": "Command: \"drink the cans\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 12,
+          "score": 0,
+          "poop_level": 69,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 12
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:28:52.772230",
+      "event_type": "command",
+      "data": {
+        "input": "look at the note",
+        "parse_success": true,
+        "response": "On the floor you see a small folded piece of paper, looks like a note.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 13,
+          "score": 0,
+          "poop_level": 71,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 13
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:28:58.269793",
+      "event_type": "command",
+      "data": {
+        "input": "read the note",
+        "parse_success": false,
+        "response": "Command: \"read the note\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 13,
+          "score": 0,
+          "poop_level": 71,
+          "inventory": [
+            "Coins"
+          ]
+        },
+        "turn": 13
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:01.282422",
+      "event_type": "command",
+      "data": {
+        "input": "take the note",
+        "parse_success": true,
+        "response": "Taken.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 14,
+          "score": 0,
+          "poop_level": 73,
+          "inventory": [
+            "Coins",
+            "Note"
+          ]
+        },
+        "turn": 14
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:03.675056",
+      "event_type": "command",
+      "data": {
+        "input": "read the note",
+        "parse_success": false,
+        "response": "Command: \"read the note\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 14,
+          "score": 0,
+          "poop_level": 73,
+          "inventory": [
+            "Coins",
+            "Note"
+          ]
+        },
+        "turn": 14
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:10.030950",
+      "event_type": "command",
+      "data": {
+        "input": "look at note",
+        "parse_success": true,
+        "response": "A small folded note with some sloppy handwriting on it, you can still read it though...",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 15,
+          "score": 0,
+          "poop_level": 75,
+          "inventory": [
+            "Coins",
+            "Note"
+          ]
+        },
+        "turn": 15
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:16.603248",
+      "event_type": "command",
+      "data": {
+        "input": "read letter",
+        "parse_success": false,
+        "response": "Command: \"read letter\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 15,
+          "score": 0,
+          "poop_level": 75,
+          "inventory": [
+            "Coins",
+            "Note"
+          ]
+        },
+        "turn": 15
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:18.974295",
+      "event_type": "command",
+      "data": {
+        "input": "read note",
+        "parse_success": false,
+        "response": "Command: \"read note\" does not start with a known verb.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 15,
+          "score": 0,
+          "poop_level": 75,
+          "inventory": [
+            "Coins",
+            "Note"
+          ]
+        },
+        "turn": 15
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:27.059158",
+      "event_type": "command",
+      "data": {
+        "input": "take the lemon",
+        "parse_success": true,
+        "response": "Taken.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 16,
+          "score": 0,
+          "poop_level": 77,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 16
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:34.567281",
+      "event_type": "command",
+      "data": {
+        "input": "talk to the genie",
+        "parse_success": false,
+        "response": "I don't see a to genie here!",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 16,
+          "score": 0,
+          "poop_level": 77,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 16
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:42.228724",
+      "event_type": "command",
+      "data": {
+        "input": "talk to the genie",
+        "parse_success": false,
+        "response": "I don't see a to genie here!",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 16,
+          "score": 0,
+          "poop_level": 77,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 16
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:48.741458",
+      "event_type": "command",
+      "data": {
+        "input": "talk to the bobblhead",
+        "parse_success": false,
+        "response": "I don't see a to bobblhead here!",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 16,
+          "score": 0,
+          "poop_level": 77,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 16
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:29:55.382422",
+      "event_type": "command",
+      "data": {
+        "input": "talk to the bobblehead",
+        "parse_success": false,
+        "response": "I don't see a to bobblehead here!",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 16,
+          "score": 0,
+          "poop_level": 77,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 16
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:30:00.043311",
+      "event_type": "command",
+      "data": {
+        "input": "talk to genie",
+        "parse_success": false,
+        "response": "I don't see a to genie here!",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 16,
+          "score": 0,
+          "poop_level": 77,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 16
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:30:07.298011",
+      "event_type": "command",
+      "data": {
+        "input": "talk genie",
+        "parse_success": true,
+        "response": "The Genie Bobblehead's head stops bouncing and the googly eyes focus on you with an eerie intensity. Its tiny speaker crackles to life with a surprisingly deep voice. 'Ah, another desperate soul! I see you've been sampling Fast Eddie's finest colon cleanser. *chuckles darkly* You mortals never learn, do you? Well, since you're here, I suppose I could grant you a wish... but you know how these things go. Be very careful what you wish for!'  1. I wish to find a working bathroom immediately! 2. I wish I never drank that colon cleanse stuff. 3. Can you tell me about this hotel? 4. This is too weird, I'm out of here.  Choose an option (1-4) or 'quit' to end conversation.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 17,
+          "score": 0,
+          "poop_level": 79,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 17
+      }
+    },
+    {
+      "timestamp": "2025-08-24T23:32:28.170590",
+      "event_type": "command",
+      "data": {
+        "input": "talk genie",
+        "parse_success": true,
+        "response": "The Genie Bobblehead's head stops bouncing and the googly eyes focus on you with an eerie intensity. Its tiny speaker crackles to life with a surprisingly deep voice. 'Ah, another desperate soul! I see you've been sampling Fast Eddie's finest colon cleanser. *chuckles darkly* You mortals never learn, do you? Well, since you're here, I suppose I could grant you a wish... but you know how these things go. Be very careful what you wish for!'  1. I wish to find a working bathroom immediately! 2. I wish I never drank that colon cleanse stuff. 3. Can you tell me about this hotel? 4. This is too weird, I'm out of here.  Choose an option (1-4) or 'quit' to end conversation.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 33,
+          "score": 0,
+          "poop_level": 100,
+          "inventory": [
+            "Coins",
+            "Note",
+            "Lemon"
+          ]
+        },
+        "turn": 33
+      }
     }
   ],
-  "current_state": {},
+  "current_state": {
+    "room_name": "Room 201",
+    "turn": 17,
+    "score": 0,
+    "poop_level": 79,
+    "inventory": [
+      "Coins",
+      "Note",
+      "Lemon"
+    ]
+  },
   "statistics": {
-    "commands_entered": 1,
+    "commands_entered": 36,
     "rooms_visited": [],
     "items_interacted": [],
-    "failed_commands": 0,
-    "successful_commands": 1
+    "failed_commands": 18,
+    "successful_commands": 18
   }
 }

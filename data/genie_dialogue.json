@@ -38,7 +38,7 @@
         },
         {
           "choice": "Maybe I should make a different wish...",
-          "leadsToId": "SECOND_WISH"
+          "leadsToId": "START"
         }
       ]
     },
@@ -48,11 +48,11 @@
       "choices": [
         {
           "choice": "Then help me deal with the consequences!",
-          "leadsToId": "PRACTICAL_HELP"
+          "leadsToId": "HELP_OPTIONS"
         },
         {
           "choice": "There must be something you can do!",
-          "leadsToId": "INSIST_HELP"
+          "leadsToId": "GENIE_STORY"
         },
         {
           "choice": "This is hopeless...",
@@ -70,11 +70,11 @@
         },
         {
           "choice": "Can you help me escape this place?",
-          "leadsToId": "ESCAPE_WISH"
+          "leadsToId": "FLEE_ATTEMPT"
         },
         {
           "choice": "Tell me about the bathroom situation.",
-          "leadsToId": "BATHROOM_INFO"
+          "leadsToId": "URGENT_BATHROOM"
         }
       ]
     },
@@ -88,11 +88,11 @@
         },
         {
           "choice": "I really just want to leave!",
-          "leadsToId": "INSIST_LEAVE"
+          "leadsToId": "FLEE_ATTEMPT"
         },
         {
           "choice": "You're right, I need help.",
-          "leadsToId": "ADMIT_NEED"
+          "leadsToId": "HELP_OPTIONS"
         }
       ]
     },
@@ -114,7 +114,7 @@
         },
         {
           "choice": "I'll take my chances with the dog.",
-          "leadsToId": "BRAVE_ATTEMPT"
+          "leadsToId": "DANE_DANGER"
         }
       ]
     },
@@ -128,7 +128,7 @@
         },
         {
           "choice": "Can you give me money?",
-          "leadsToId": "GENIE_MONEY"
+          "leadsToId": "GENIE_STORY"
         },
         {
           "choice": "Tell me more about these dog treats.",
@@ -146,7 +146,7 @@
         },
         {
           "choice": "Are there any other solutions?",
-          "leadsToId": "ALTERNATIVE_SOLUTIONS"
+          "leadsToId": "OTHER_BATHROOMS"
         },
         {
           "choice": "This seems overly complicated...",
@@ -168,7 +168,7 @@
         },
         {
           "choice": "Any other ways to get money?",
-          "leadsToId": "OTHER_MONEY"
+          "leadsToId": "MONEY_SOURCES"
         }
       ]
     },
@@ -182,11 +182,11 @@
         },
         {
           "choice": "What else might be in there?",
-          "leadsToId": "COUCH_DANGERS"
+          "leadsToId": "COUCH_HINT"
         },
         {
           "choice": "Are there any other options?",
-          "leadsToId": "MORE_OPTIONS"
+          "leadsToId": "HELP_OPTIONS"
         }
       ]
     },
@@ -196,15 +196,15 @@
       "choices": [
         {
           "choice": "Where is this key hidden?",
-          "leadsToId": "KEY_LOCATION"
+          "leadsToId": "COUCH_HINT"
         },
         {
           "choice": "I don't want to steal anything.",
-          "leadsToId": "MORAL_STANCE"
+          "leadsToId": "BACK_TO_BUSINESS"
         },
         {
           "choice": "Tell me about other money options.",
-          "leadsToId": "OTHER_MONEY"
+          "leadsToId": "MONEY_SOURCES"
         }
       ]
     },
@@ -218,7 +218,7 @@
         },
         {
           "choice": "Fast Eddie did this to you?",
-          "leadsToId": "EDDIE_STORY"
+          "leadsToId": "GENIE_STORY"
         },
         {
           "choice": "Let's focus on my problem for now.",
@@ -232,7 +232,7 @@
       "choices": [
         {
           "choice": "Maybe I'll come back after I solve my problem.",
-          "leadsToId": "RAIN_CHECK"
+          "leadsToId": "GRATEFUL_EXIT"
         },
         {
           "choice": "Right, let's focus on the bathroom situation.",
@@ -250,7 +250,7 @@
         },
         {
           "choice": "I'll talk to the janitor.",
-          "leadsToId": "JANITOR_CHOICE"
+          "leadsToId": "JANITOR_DEAL"
         },
         {
           "choice": "Thanks for all the information!",
@@ -333,7 +333,7 @@
         },
         {
           "choice": "I'll find another solution.",
-          "leadsToId": "ALTERNATIVE_SOLUTIONS"
+          "leadsToId": "OTHER_BATHROOMS"
         }
       ]
     },

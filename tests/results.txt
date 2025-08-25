@@ -1,0 +1,35 @@
+Command >> Look at the floor.
+Output >>  I don't see a floor here.
+
+Command >> Look at the rabbit ears
+Output I don't see rabbit ears here!
+
+All interaction with the rabbit ears as defined in my "GameInteractions.txt" is broken. The rabbit ears are not properly in the room.
+ in fact trying to "move the rabbit ears" crashed the game!
+
+Command >> Take the Genie
+Taken
+
+
+Command >> Talk to the Genie
+I don't see a Genie here
+
+I thought this had to do with taking the genie but it shouldn't anything that is in the current location or the players 
+inventory should be able to be recognized by the parser. However even after restarting the game and not taking the genie the Command
+still fails returning 'I don't see a Genie here' and so does the command 'Talk to the bobblehead'
+
+Command >> Turn on the TV
+Output Command: "turn on the tv" does not star with a known verb
+
+cant turn on the tv or turn off the tv or interact with it in any meaningful way as described in my GameInteractions.txt
+
+Command >> Pickup the phone
+Output Command: "pickup the phone" does not start with a known verb.
+
+Phone interaction broken Command "Use the phone" crashed the game. No other commands worked and let me use the phone in any way
+
+Bed Interction broken
+
+You can only sit on the bed, not lay on it but once you do you can never get off the bed again. Game over. Game Breaking Bug.
+
+Sheets - minor importance but the sheets don't really exist and we are supposed to be able to interact with them.

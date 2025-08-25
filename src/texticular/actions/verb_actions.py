@@ -164,8 +164,9 @@ def use(controller):
         return False
         
     # Check if object has a custom action method
-    if hasattr(target, 'action') and target.action_method_name:
-        return target.action(controller=controller, target=target)
+    from texticular.actions.action_dispatcher import dispatch_object_action
+    if dispatch_object_action(controller, target):
+        return True
     
     # Default use behavior - most things can't be "used"
     controller.response.append(f"You can't use the {target.name}.")
@@ -181,8 +182,9 @@ def sit(controller):
         return False
     
     # Check if object has a custom action method for sitting
-    if hasattr(target, 'action') and target.action_method_name:
-        return target.action(controller=controller, target=target)
+    from texticular.actions.action_dispatcher import dispatch_object_action
+    if dispatch_object_action(controller, target):
+        return True
     
     # Default sit behavior for most objects
     if "chair" in target.name.lower() or "couch" in target.name.lower() or "bed" in target.name.lower():
@@ -255,18 +257,6 @@ def adjust(controller: Controller):
     """Handle adjust commands - same as move"""
     return move_object(controller)
 
-
-def sit(controller: Controller):
-    """Handle sitting on objects"""
-    item = controller.tokens.direct_object
-    
-    if "SitResponse" in item.descriptions:
-        controller.response.append(item.descriptions["SitResponse"])
-    elif Flags.SETPIECEBIT in item.flags and any(word in item.name.lower() for word in ["couch", "bed", "chair", "seat"]):
-        controller.response.append(f"You sit on the {item.name}. It's not the most comfortable thing you've ever sat on.")
-    else:
-        controller.response.append(f"You can't sit on the {item.name}.")
-    return True
 
 
 def jump_on(controller: Controller):
@@ -355,4 +345,50 @@ def break_object(controller: Controller):
         controller.response.append(f"You can't break the {item.name}. It's too sturdy, too important, or you just don't have the right tools.")
     else:
         controller.response.append(f"Breaking the {item.name} doesn't seem like a good idea right now.")
+    return True
+
+
+def turn_on(controller: Controller):
+    """Handle turning on objects like TVs, lights, etc."""
+    item = controller.tokens.direct_object
+    
+    if not item:
+        controller.response.append("Turn on what?")
+        return False
+    
+    if "TurnOnResponse" in item.descriptions:
+        controller.response.append(item.descriptions["TurnOnResponse"])
+    elif "tv" in item.name.lower():
+        controller.response.append(f"You try to turn on the {item.name}, but it just displays static and fuzzy images. The reception here is terrible.")
+    elif "light" in item.name.lower() or "lamp" in item.name.lower():
+        controller.response.append(f"You turn on the {item.name}. The room brightens up a bit.")
+    else:
+        controller.response.append(f"You can't turn on the {item.name}.")
+    return True
+
+
+def turn_off(controller: Controller):
+    """Handle turning off objects like TVs, lights, etc."""
+    item = controller.tokens.direct_object
+    
+    if not item:
+        controller.response.append("Turn off what?")
+        return False
+    
+    if "TurnOffResponse" in item.descriptions:
+        controller.response.append(item.descriptions["TurnOffResponse"])
+    elif "tv" in item.name.lower():
+        controller.response.append(f"You turn off the {item.name}. The room becomes a bit quieter.")
+    elif "light" in item.name.lower() or "lamp" in item.name.lower():
+        controller.response.append(f"You turn off the {item.name}. The room gets dimmer.")
+    else:
+        controller.response.append(f"You can't turn off the {item.name}.")
+    return True
+
+
+def stand_up(controller: Controller):
+    """Handle getting up from sitting positions."""
+    # Check if player is sitting on something
+    # For now, just provide a generic response
+    controller.response.append("You stand up and stretch your legs.")
     return True

@@ -94,23 +94,23 @@ class Controller:
             f"your license and focus your still hazy eyes and barely make out that it says...{self.player.name}."
         )
 
-        # Simple intro for ASCII UI testing
-        print("=" * 80)
-        print("TEXTICULAR: Chapter 1 - You Gotta Go!")
-        print("=" * 80)
-        print()
+        # Display ASCII art splash screen
+        print(intro_text)
         print("Press ENTER to begin...")
         input()
         
-        # Skip intro content for now - go straight to game
-        # intro_content = [
-        #     intro_text,
-        #     intro_scene_part1,
-        #     intro_scene_part2, 
-        #     intro_scene_part3
-        # ]
-        # 
-        # self.ui.display_intro(intro_content)
+        # Display introduction story
+        intro_content = [
+            intro_scene_part1,
+            intro_scene_part2, 
+            intro_scene_part3
+        ]
+        
+        for scene in intro_content:
+            print(scene)
+            print()
+            input("Press ENTER to continue...")
+            print()
         
         # Get initial room description and render first screen
         self.response = []
@@ -139,21 +139,22 @@ class Controller:
 
         logger = logging.getLogger(__name__)
         
+        # Import the action dispatcher
+        from texticular.actions.action_dispatcher import dispatch_object_action
+        
         #Try letting the indirect object handle the input first
         if indirect_object:
             target_object = self.tokens.indirect_object
-            if hasattr(target_object, 'action') and target_object.action_method_name:
-                logger.debug(f"Indirect object handler: {target_object.name}")
-                if target_object.action(controller=self, target=target_object):
-                    return True
+            logger.debug(f"Indirect object handler: {target_object.name}")
+            if dispatch_object_action(controller=self, target=target_object):
+                return True
 
         #If that doesn't work try giving the direct object a change to handle the input
         if direct_object:
             target_object = self.tokens.direct_object
-            if hasattr(target_object, 'action') and target_object.action_method_name:
-                logger.debug(f"Direct object handler: {target_object.name}")
-                if target_object.action(controller=self, target=target_object):
-                    return True
+            logger.debug(f"Direct object handler: {target_object.name}")
+            if dispatch_object_action(controller=self, target=target_object):
+                return True
 
         # fall through to the most generic verb response
         logger.debug(f"Generic verb handler: {verb}")
@@ -491,6 +492,20 @@ class Controller:
             self.npc_manager.register_npc(npc)
             self.logger.log_event("npc_registered", {"name": npc.name, "location": npc.location_key})
     
+    def start_dialogue(self):
+        """Start dialogue mode with the current dialogue graph."""
+        if hasattr(self, 'dialogue_graph') and self.dialogue_graph:
+            self.gamestate = GameStates.DIALOGUESCENE
+            # Display the initial dialogue
+            current_node = self.dialogue_graph.current_node()
+            self.response.append(current_node.text)
+            if current_node.choices:
+                self.response.append("")  # Blank line
+                for i, choice in enumerate(current_node.choices, 1):
+                    self.response.append(f"{i}. {choice.text}")
+                self.response.append("")
+                self.response.append("Choose an option (1-{}) or 'quit' to end conversation.".format(len(current_node.choices)))
+    
     def clocker(self):
         # Increment turn and increase poop urgency
         self.turn_count += 1
@@ -530,6 +545,12 @@ class Controller:
         self.commands["squeeze"] = va.squeeze
         self.commands["break"] = va.break_object
         self.commands["smash"] = va.break_object
+        self.commands["pickup"] = va.take  # Add pickup as alias for take
+        self.commands["turn on"] = va.turn_on
+        self.commands["turn off"] = va.turn_off
+        self.commands["stand"] = va.stand_up
+        self.commands["get up"] = va.stand_up
+        self.commands["rub"] = va.touch  # Rub as alias for touch
 
 
 
