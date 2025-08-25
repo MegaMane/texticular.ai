@@ -1,30 +1,267 @@
-Room 201
+```
+[Note to Claude]
+Document Overview:
+Before we get started...in the this document extra comments and context for Claude will be denoted using the 
+markdown code block convention of three tildes at the start and beginning of a section. The first token after the opening tildes will start with "[Note to Claude]" followed by
+an optional tag "Like This:" and then followed by free flowing text describing the context for Claude. Variables used in order to specify patterns for building strings in the output 
+or otherwise will be denoted with <> example <myVar>.
 
-As you look around the hotel room you see an old TV with rabbit ears that looks like it came straight out of the 1950's. Against the wall there is a beat up night stand with a little drawer built into it and black rotary phone on top. Next to it is a lumpy old bed that looks like it's seen better days, with a dark brown stain on the sheets and a funny smell coming from it. There is an obnoxious orange couch in the corner next to a small window smudged with sticky purple hand prints. The stuffing is coming out of the cushions which are also spotted with purple, and the floor is covered with cans of Fast Eddie's Colon Cleanse.
+Within the context of the actual text ouptut for the game in the example below, interactable objects will be highlited with {} such as {old TV} 
+or {little drawer}. These braces are included in the game output example in this document to clarify which obejcts are interactable but should not be outuput in the actual game. 
+of course, the comments in any "[Note to Claude]" section should not be renedered in the final output of the game as well. 
 
-Items
-an old TV 
-beat up night stand
-    with a little drawer built into it 
-        Crusty Ear Plugs
-black rotary phone on top.
-lumpy old bed 
-sheets
-little lemon
-obnoxious orange couch 
-    couch cushions
-        Coins
- small window
- sticky purple hand prints. 
- floor 
-cans of Fast Eddie's Colon Cleanse
+The first section of this document describes how I want the game output to be structured and displayed to the player on each turn as well as 
+which objects are expected to be interactable. The UI Claude built using rich is nice, but I think it isn't quite functioning as expected and important
+sections of description and text are missing. I want to revert back to a simple no frills ascii based output for now that follows the pattern and layout
+described below. Some color highlighting for things like the status labels or the name of the room or even for highlighting interactable objects is good
+but I want to stay away from an overly fancy UI to begin with. I just want to communicate the important pieces of information clearly and easily to the 
+player and to mysefl for debugging and gameplay. One thing I would like is for the terminal to be a fixed height and width and for it to clear all text and
+repaint this output/ui to the screen on every turn. Every time the player presses enter,we should clear the screen update the gamestate and redraw within
+the same constraints of the window we have defined.
+```
 
-Exits
- West Room 201 Bathroom
- East West Hallway
-   If you go into the bathroom in your hotel more than once without the sleepy time dog treats<br>
-(The Great Dane Kills You)
 
+```[Note to Claude] BEGIN UI section```
+Inventory:  [pocket lint, wallet]                                                                                           Turn: 0
+                                                                                                                            Score: 0
+                                                                                                                            HPooh: [********------------]
+                                                                                                                            Location: Room 201
+                        
+|---------------------------|
+|         Room 201          |                                                                                       
+|---------------------------|
+
+```
+[Note to Claude] 
+Describe The Room With Any Set Pieces or Permanent Objects that can be interacted with but can't be removed
+```
+
+As you look around the hotel room you see an {old TV} with (rabbit ears) that looks like it came straight out of the 1950's. 
+Against the wall there is a {beat up night stand} with a {little drawer} built into it and {black rotary phone} on top. 
+Next to it is a {lumpy old bed} that looks like it's seen better days, with a (dark brown stain) on the {sheets} and a {funny smell} coming from it. 
+There is an {obnoxious orange couch} in the corner next to a {small window} smudged with {sticky purple hand prints}. 
+The stuffing is coming out of the {couch cushions} which are also spotted with purple, and the {floor} is covered with {empty cans} 
+of Fast Eddie's Colon Cleanse.
+
+```
+[Note to Claude] In a seperate section, describe any currently visible items 
+(i.e items that are not inside containers or otherwise currently hidden from the player) 
+that can be interacted with.
+```
+
+On the floor you see a small folded piece of paper, looks like a {note}.
+A {little lemon} with a big attitude sits on the {night stand}.
+
+```
+[Note to Claude]
+In a seperate section describe any NPCs that can be interacted with. 
+This is section would be empty in Room 201 becuase there are none visible in the main room but I will add one here
+just for the purpose of providing an example.
+```
+There is a {strange little Genie Bobblehead} with a {speaker} built into it on the nightstand that has {googley eyes} and an eery smile that almost seems like it's alive. 
+It is holding a little sign that says "Ask Me Anything...but you might WISH you hadn't hahaha!". It's head is bouncing back and forth slightly and
+it seems to be silently judging you.
+
+```
+[Note to Claude]
+In a seperate section describe the exits that are currently visible to the player 
+(certain exits could be secrete and revealed by context sensitive action in the game)
+```
+Exits:
+    ```
+    [Note To Claude]
+    Pattern to follow for printing the exits
+    To the <Cardinal Direction> <current exit description><padded with a minimum of three '.' to make the exit names left aligned><exit "name">
+    ```
+    To the West is the DOOR to that sweet sweet porcelain throne............................{Bathrom Door}
+    To the East the DOOR leads outside to the hallway...where hopefully there are toilets...{Hallway Door}
+
+
+
+*-----------------------Enter Player Command------------------------------------------------------------------------------------------------------------*
+| >>                                                                                                                                                    |
+*-------------------------------------------------------------------------------------------------------------------------------------------------------*
+Basic Commands: Look <room>, Go <direction>, Inv, Take <item>, Open <container or door>, Help, Save, Exit 
+```[Note to Claude] END UI section``
+
+```
+[Note To Claude]
+Interactable Items in Room 201:
+
+To preface this sections so I don't have to repeat myself with redundant actions, the player can try to enter anything at the command line and 
+we can't possibly respond to all of it. But we should always have responses for basic commands such as look, examine, take etc. that fall back 
+to generic responses letting the player know whether they can take an object or not or if examining an object is of no additional interest with a fun
+little bit of extra description as a reward for them trying to interact with the object. Commands that we don't understand at all or haven't implemented 
+a response for should fall back to a generic "You can't do that" or "I don't understand". I will reference the interactable items that were defined by the 
+{} above in the order they appeared here and elaborate on interactions that would be expected to work. Some interactions that are special would be handled by the action method system
+instead of the generic verb handlers as required.
+
+{old TV} 
+---------
+Expected Action Verbs [Turn on, Turn Off, Change Channel, Look, watch]
+
+This is more of a specialized prop used in the room for entertainment or possibly to solve a puzzle. 
+The idea is that later in the game different channels with commercials or programs could be added aftger a certain time or event. For example a commercial with a phone number the player could dial to kick off a conversation using the rotary phone.
+
+There is a Television class for this in items package (props.py module) it should be instantiated with an array of channels
+
+such as:
+channel_list = [
+                  "Whenever I feel like a sweaty slob, there is one assurance that gives me peace of mind. Deodorant. Just one wipe under each arm pit and I am good to go for days. Heck, I don't even need to shower for one whole week.That's how good this shit is.",
+                  "Ever sit on a toilet and have the never ending wipe?  Well, those days are over. I've invented one wipes.  A new form of toilet paper that contains a solution where with just one wipe, you are fresh and clean. Done deal.",
+                  "Well, I'm your Vita-vega-vittival girl. Are you tired? Run-down? Listless? Do you poop out at parties? Are you unpoopular? Well, are you? The answer to all your problems is in this little ol' bottle…Vitameatavegemin. That's it. Vitameatavegemin contains vitamins, meat, meg-e-tables, and vinerals. So why don't you join the thousands of happy , peppy people and get a great big bottle of Vita-veaty-vega-meany-minie-moe-amin. I'll tell you what you have to do. You have to take a whole tablesppon after every meal. It's so tasty, too: it's just like candy. So everybody get a bottle of…this stuff.",
+                   "Static..."
+]
+
+        
+
+{rabbit ears}
+----------------
+Expected Action verbs [Take, Look/Examine, Move, Adjust]
+
+This is a basic generic prop (identified by the "SETPIECEBIT" flag). The player should receive a fun response that informs them that there is nothing more to do with these. This could be handled in the object itself with the alternate responses that
+are available in the JSON for an object for example or we also have the option to handle it in a custom "actionMethod" defined in the json config as well:
+
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-tv-rabbitEars",
+            "locationKey": "room201",
+            "name": "Rabbit Ears",
+           ...other Json
+            "descriptions": {
+                "StartingRoom": "Some old metal Antenna or "Rabbit Ears" used to adjust the picture on the TV.",
+                "Main": "They're metal, their pointy and telescopic, a lot like your grandpa's tv. Now if only they actually worked well...",
+                "TakeResponse": "Ouch, that hurts, did you like it when your mommy tugged on your ears!? The rabbit ears are firmly attached to the TV and they are staying that way.",
+                "MoveResponse": "You make your best effort to move the Rabbit Ears in hopes to get a clearer picture and...yep, it's still shitty."
+            },
+            "flags": [
+                "SETPIECEBIT"
+            ]
+           ...other json
+        }
+
+Example Command: Take The Rabbit Ears.
+Response: Ouch, that hurts, did you like it when your mommy tugged on your ears!? The rabbit ears are firmly attached to the TV and they are staying that way.
+
+Example Command: Move The Rabbit Ears. (or Adust the Rabbit Ears)
+Response: You make your best effort to move the Rabbit Ears in hopes to get a clearer picture and...yep, it's still shitty.
+
+Example Command: Examine the Rabbit Ears. 
+Response: They're metal, their pointy and telescopic, a lot like your grandpa's tv. Now if only they actually worked well...
+
+
+{beat up night stand} 
+----------------------
+Expected Action verbs [Open, Close]
+
+Openening and closing the night stand or the {little drawer} results in the same action, the night stand passes the open action on to the little drawer
+which is in turn open and the contents are listed.
+
+{little drawer} 
+----------------------
+Expected Action Verbs [Open, Close]
+    when this is opened (or any unlocked container is opened for that matter) it should trigger a listing of the contents like so:
+
+    You open the <container name> and inside you see:
+        <for item in container>:
+         <item name: short description>
+
+    Concrete Example:
+    
+    You opene the little drawer and inside you see:
+        Earplugs: Some well loved yellow ear plugs, they smell kinda funky but they still work.
+
+Note: If the container remains open next time the player looks at the room the items in the container should be printed off in the interactable items section because they are now visible.
+
+{black rotary phone} 
+----------------------
+    This is another specialized prop item that has a class stub defined in items package (props.py module) as well but nothing is implemented. However the idea here is to have a dictionary of numbers with 
+    varying actions most would return a static message that would be humorous to the player. But some might kick off an actual conversation with an npc. Such as calling the front desk. the player would have to discover these
+    numbers in the game world.
+
+{lumpy old bed}
+----------------------
+    prop/SETPIECEBIT
+    Expected Action Verbs [Sit, Lay, Get On, Get Off, Jump On, Look In, Look Inside]
+
+
+{dark brown stain} 
+----------------------
+ basic generic prop see {rabbit ears} above for handling strategy
+
+{sheets} 
+----------------------
+    basic generic prop see {rabbit ears} above for handling strategy
+
+{funny smell} 
+----------------------
+    basic generic prop see {rabbit ears} above for handling strategy
+
+{obnoxious orange couch}
+----------------------
+    prop/SETPIECEBIT
+    Expected Action Verbs [Sit, Lay, Get On, Get Off, Jump On, Look In, Look Inside]
+
+{small window}
+----------------------
+Expected Action Verbs [Open, look, touch, break]
+    basic generic prop see {rabbit ears} above for handling strategy. But currently also has a custom action method defined.
+    let the player know jumping out the window isn't a good option in a joking way (but it's not really a possibility)
+
+{sticky purple hand prints}
+----------------------
+    basic generic prop see {rabbit ears} above for handling strategy. But currently also has a custom action method defined.
+
+{couch cushions}
+----------------------
+    Container see {little drawer} for implementation details
+    
+    You open the couch cushions and inside you see:
+        Coins: Two quarters that add up to fifty cents. Just enough for the vending machine's cheapest option.
+
+{floor}
+----------------------
+    basic generic prop see {rabbit ears} above for handling strategy. Should make a funny comment about the floor being something obvious that exists with not much of interest to do at the moment but stand on it.
+
+{empty cans} 
+----------------------
+    basic generic prop see {rabbit ears} above for handling strategy. Should make a funny comment about the player drinking all that fast eddies colon clense
+
+ {note}
+ ----------------------
+  Expected Action Verbs [read, look, take]
+
+ {little lemon}
+ ----------------------
+  Expected Action Verbs [look, take, eat, squeeze]
+
+ {strange little Genie Bobblehead}
+  ----------------------
+   Expected Action Verbs [look, take, break, talk to, speak, ask]
+   This is the npc example that I gave. I would actually like to implement this in the test version of room 201
+ 
+ {speaker}
+  ----------------------
+ basic generic prop see {rabbit ears} above for handling strategy. Should make a funny comment about the player drinking all that fast eddies colon clense
+
+ {googley eyes}
+  ----------------------
+ basic generic prop see {rabbit ears} above for handling strategy. Should make a funny comment about the player drinking all that fast eddies colon clense
+
+ {Bathroom Door}
+  ----------------------
+  Exit 
+
+Note: If you go into the bathroom in your hotel more than once without the sleepy time dog treats
+The Great Dane Kills You. This is a Game over condition.
+
+
+ {Hallway Door}
+  ----------------------
+  Exit
+
+
+currently there is an array called 
 
 "itemKeyValues": [
     "room201-nightStand",
@@ -33,54 +270,86 @@ Exits
     "intro-note"
 ]
 
+in the newGameMap.json file for room 201 as you can see this is missing several of the items that 
+should be present in the room that can be interacted with. 
+The naming convention of the item keys tries to follow a hierarchy of what contains the item when the game starts starting at the room level.
+```
 
+```
+[Note To Claude]
+I didn't fill these in because I would like you (Claude) to fill them in and demonstrate your understanding of the context above.
 
- Interactable objects
+Example Parser Sentences and Expected Outcomes:
+```
 
-1. TV
-2. night stand
-3. Drawer
-4. phone
-5. bed
+**BASIC INTERACTIONS:**
+>> look
+Response: [Full room description with all visible objects and NPCs]
 
-6. couch
+>> examine old tv
+Response: This ancient television looks like it came straight out of the 1950's. The screen is small and fuzzy, and those rabbit ears on top don't seem to be doing much good.
 
-7. window
+>> take lemon
+Response: You pick up the little lemon. It has quite the attitude for such a small citrus fruit.
+[Lemon moves to inventory]
 
-8. cans         
+>> take rabbit ears
+Response: Ouch, that hurts, did you like it when your mommy tugged on your ears!? The rabbit ears are firmly attached to the TV and they are staying that way.
 
+**CONTAINER INTERACTIONS:**
+>> open drawer
+Response: You open the little drawer and inside you see:
+    Earplugs: Some well loved yellow ear plugs, they smell kinda funky but they still work.
 
+>> open couch cushions
+Response: You open the couch cushions and inside you see:
+    Coins: Two quarters that add up to fifty cents. Just enough for the vending machine's cheapest option.
 
-import unittest
-from src.texticular.items import story_item
-from src.texticular.command_parser import ParseTree
+>> take coins
+Response: You take the coins. Every penny counts when you're this broke.
+[Coins move to inventory, drawer remains open]
 
+**SPECIALIZED OBJECT INTERACTIONS:**
+>> turn on tv
+Response: [Television.action_method called] You turn on the old TV. After some static and crackling, a fuzzy image appears...
+[Shows random channel from channel_list array]
 
-class PropTest(unittest.TestCase):
+>> change channel
+Response: You fiddle with the knobs and the channel changes...
+[Shows different channel from array]
 
-    def test_Television(self):
-        tokens = ParseTree()
-        tv = story_item.Television(name="Old TV",
-                                   descriptions={"Main": "an old TV with rabbit ears that looks like it came straight out of the 1950's"},
-                                   location_key="room201",
-                                   key_value="oldtv-room201",
-                                   channel_list = [
-                                "Whenever I feel like a sweaty slob, there is one assurance that gives me peace of mind. Deodorant. Just one wipe under each arm pit and I am good to go for days. Heck, I don't even need to shower for one whole week.That's how good this shit is.",
-                                "Ever sit on a toilet and have the never ending wipe?  Well, those days are over. I've invented one wipes.  A new form of toilet paper that contains a solution where with just one wipe, you are fresh and clean. Done deal.",
-                                "Well, I'm your Vita-vega-vittival girl. Are you tired? Run-down? Listless? Do you poop out at parties? Are you unpoopular? Well, are you? The answer to all your problems is in this little ol' bottle…Vitameatavegemin. That's it. Vitameatavegemin contains vitamins, meat, meg-e-tables, and vinerals. So why don't you join the thousands of happy , peppy people and get a great big bottle of Vita-veaty-vega-meany-minie-moe-amin. I'll tell you what you have to do. You have to take a whole tablesppon after every meal. It's so tasty, too: it's just like candy. So everybody get a bottle of…this stuff.",
-                                "Static..."
-                        ],
-                                   turn_on_response = "You turn on the TV...",
-                                   turn_off_response = "The TV flickers then goes black."
-                                   )
-        print(tv.turn_on(tokens))
-        print(tv.change_channel(tokens))
-        print(tv.change_channel(tokens))
-        print(tv.change_channel(tokens))
-        print(tv.change_channel(tokens))
-        print(tv.turn_off(tokens))
-        self.assertEqual(tv.name,"Old TV")
+**NPC INTERACTIONS:**
+>> talk to genie bobblehead
+Response: [Dialogue system activates, ASCII dialogue UI appears]
+The Genie Bobblehead's head stops bouncing and the googley eyes focus on you with an eerie intensity...
+[Dialogue tree begins with conversation options]
 
+>> ask genie about bathroom
+Response: [Context-sensitive dialogue response based on current conversation node]
 
-if __name__ == '__main__':
-    unittest.main()
+**PROP/SETPIECE INTERACTIONS:**
+>> sit on couch
+Response: You plop down on the obnoxious orange couch. The stuffing crunches under you and you sink in way too deep. This thing has definitely seen better days.
+
+>> jump on bed
+Response: You bounce on the lumpy old bed. The springs creak ominously and you notice the dark brown stain is even more prominent now. Maybe jumping on it wasn't the best idea.
+
+>> look at floor
+Response: It's a floor. You know, that thing you stand on? Right now it's covered in empty Fast Eddie's cans and general hotel room grossness, but it's still doing its job of keeping you from falling into the room below.
+
+**FALLBACK RESPONSES:**
+>> dance with tv
+Response: You can't do that.
+
+>> eat couch
+Response: I don't understand that command.
+
+>> examine something-not-in-room
+Response: I don't see that here.
+
+**MOVEMENT:**
+>> go west
+Response: [Move to bathroom - trigger Great Dane warning system]
+
+>> go east  
+Response: [Move to hallway]

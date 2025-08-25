@@ -275,6 +275,267 @@
                 "CONTAINERBIT"
             ],
             "actionMethod": "action_vending_machine"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-tv",
+            "locationKey": "room201",
+            "name": "Old TV",
+            "synonyms": ["TV", "Television", "Set"],
+            "adjectives": ["Old", "Ancient"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "This ancient television looks like it came straight out of the 1950's. The screen is small and fuzzy, and those rabbit ears on top don't seem to be doing much good."
+            },
+            "size": 50,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": "action_room201_tv"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-tv-rabbitEars",
+            "locationKey": "room201",
+            "name": "Rabbit Ears",
+            "synonyms": ["Ears", "Antenna", "Antennae"],
+            "adjectives": ["Metal", "Telescopic"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "They're metal, their pointy and telescopic, a lot like your grandpa's tv. Now if only they actually worked well...",
+                "TakeResponse": "Ouch, that hurts, did you like it when your mommy tugged on your ears!? The rabbit ears are firmly attached to the TV and they are staying that way.",
+                "MoveResponse": "You make your best effort to move the Rabbit Ears in hopes to get a clearer picture and...yep, it's still shitty."
+            },
+            "size": 5,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-bed",
+            "locationKey": "room201",
+            "name": "Lumpy Old Bed",
+            "synonyms": ["Bed", "Mattress"],
+            "adjectives": ["Lumpy", "Old"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "This bed has definitely seen better days. The mattress sags in the middle and there's a suspicious dark brown stain on the sheets."
+            },
+            "size": 200,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": "action_room201_bed"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-bed-stain",
+            "locationKey": "room201",
+            "name": "Dark Brown Stain",
+            "synonyms": ["Stain", "Mark"],
+            "adjectives": ["Dark", "Brown", "Suspicious"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "You probably don't want to know what caused this stain. It's brown, it's crusty, and it smells terrible."
+            },
+            "size": 1,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-bed-sheets",
+            "locationKey": "room201",
+            "name": "Sheets",
+            "synonyms": ["Sheet", "Bedding"],
+            "adjectives": ["Stained", "Dirty"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "These sheets have seen better days. Much better days. You're not sure if they were originally white or if that's just wishful thinking."
+            },
+            "size": 10,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-bed-smell",
+            "locationKey": "room201",
+            "name": "Funny Smell",
+            "synonyms": ["Smell", "Odor", "Stench"],
+            "adjectives": ["Funny", "Strange", "Terrible"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "It's a combination of old socks, rotting food, and something else you can't quite identify. And honestly, you don't want to."
+            },
+            "size": 0,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "Container",
+            "keyValue": "room201-couch-cushions",
+            "locationKey": "room201",
+            "name": "Couch Cushions",
+            "synonyms": ["Cushions", "Cushion"],
+            "adjectives": ["Orange", "Stained"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "The couch cushions are spotted with purple stains and have several tears where stuffing is escaping."
+            },
+            "slots": 3,
+            "size": 99,
+            "keyObject": null,
+            "itemKeyValues": ["room201-coins"],
+            "flags": ["CONTAINERBIT", "SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-coins",
+            "locationKey": "room201-couch-cushions",
+            "name": "Coins",
+            "synonyms": ["Quarters", "Change", "Money"],
+            "adjectives": ["Two"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "Two quarters that add up to fifty cents. Just enough for the vending machine's cheapest option."
+            },
+            "size": 1,
+            "flags": ["TAKEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-window",
+            "locationKey": "room201",
+            "name": "Small Window",
+            "synonyms": ["Window"],
+            "adjectives": ["Small", "Dirty"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A small window with dirty glass smudged with sticky purple handprints. The view outside is obscured by the grime."
+            },
+            "size": 30,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": "action_room201_window"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-window-handprints",
+            "locationKey": "room201",
+            "name": "Sticky Purple Hand Prints",
+            "synonyms": ["Handprints", "Prints", "Marks"],
+            "adjectives": ["Sticky", "Purple"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "Purple handprints cover the window glass. They're sticky to the touch and smell faintly of grape... or something grape-adjacent."
+            },
+            "size": 0,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-phone",
+            "locationKey": "room201",
+            "name": "Black Rotary Phone",
+            "synonyms": ["Phone", "Telephone"],
+            "adjectives": ["Black", "Rotary", "Old"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "An old black rotary phone that looks like it belongs in a 1950s movie. The receiver is heavy and the dial makes satisfying clicking sounds."
+            },
+            "size": 15,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": "action_room201_phone"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-floor",
+            "locationKey": "room201",
+            "name": "Floor",
+            "synonyms": ["Ground"],
+            "adjectives": ["Dirty", "Sticky"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "It's a floor. You know, that thing you stand on? Right now it's covered in empty Fast Eddie's cans and general hotel room grossness, but it's still doing its job of keeping you from falling into the room below."
+            },
+            "size": 1000,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-cans",
+            "locationKey": "room201",
+            "name": "Empty Cans",
+            "synonyms": ["Cans", "Bottles"],
+            "adjectives": ["Empty", "Crushed"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "Empty cans of Fast Eddie's Colon Cleanse litter the floor. The labels boast about their powerful cleansing properties. No wonder you feel so terrible."
+            },
+            "size": 20,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-genie",
+            "locationKey": "room201",
+            "name": "Strange Little Genie Bobblehead",
+            "synonyms": ["Genie", "Bobblehead", "Figure"],
+            "adjectives": ["Strange", "Little"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A bizarre little genie bobblehead with googly eyes and an eerie smile. It holds a tiny sign reading 'Ask Me Anything...but you might WISH you hadn't hahaha!' Its head bounces slightly as if it's alive."
+            },
+            "size": 5,
+            "flags": ["TAKEBIT"],
+            "actionMethod": "action_room201_genie"
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-genie-speaker",
+            "locationKey": "room201",
+            "name": "Speaker",
+            "synonyms": ["Speaker"],
+            "adjectives": ["Small", "Built-in"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "A tiny speaker built into the base of the genie bobblehead. It looks like it could produce sound, though it's currently silent."
+            },
+            "size": 1,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
+        },
+        {
+            "type": "StoryItem",
+            "keyValue": "room201-genie-eyes",
+            "locationKey": "room201",
+            "name": "Googley Eyes",
+            "synonyms": ["Eyes"],
+            "adjectives": ["Googley", "Plastic"],
+            "currentDescription": "Main",
+            "examineDescription": "Main",
+            "descriptions": {
+                "Main": "Plastic googly eyes that seem to follow you around the room. They're probably not actually moving, but you can't shake the feeling they're watching you."
+            },
+            "size": 0,
+            "flags": ["SETPIECEBIT"],
+            "actionMethod": null
         }
     ]
 }

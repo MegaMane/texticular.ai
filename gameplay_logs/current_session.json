@@ -1,22 +1,39 @@
 {
-  "session_id": "session_1755992202",
-  "start_time": "2025-08-23T16:36:42.622979",
+  "session_id": "session_1756095697",
+  "start_time": "2025-08-24T21:21:37.952226",
   "events": [
     {
-      "timestamp": "2025-08-23T16:36:42.623141",
+      "timestamp": "2025-08-24T21:21:37.952678",
       "event_type": "npc_registered",
       "data": {
         "name": "Janitor",
         "location": "eastHallway"
       }
+    },
+    {
+      "timestamp": "2025-08-24T21:21:46.083981",
+      "event_type": "command",
+      "data": {
+        "input": "wipe the hand prints",
+        "parse_success": true,
+        "response": "Try as you might the hand prints are here to stay.",
+        "game_state": {
+          "room_name": "Room 201",
+          "turn": 1,
+          "score": 0,
+          "poop_level": 47,
+          "inventory": []
+        },
+        "turn": 1
+      }
     }
   ],
   "current_state": {},
   "statistics": {
-    "commands_entered": 0,
+    "commands_entered": 1,
     "rooms_visited": [],
     "items_interacted": [],
     "failed_commands": 0,
-    "successful_commands": 0
+    "successful_commands": 1
   }
 }

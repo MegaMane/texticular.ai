@@ -1,5 +1,5 @@
 """UI module for Texticular game interfaces"""
 
-from .terminal_ui import TerminalUI
+from .ascii_ui import ASCIIGameUI, GameState
 
-__all__ = ['TerminalUI']
+__all__ = ['ASCIIGameUI', 'GameState']

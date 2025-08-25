@@ -8,7 +8,7 @@ from texticular.character import Player,NPC
 from dataclasses import dataclass
 from texticular.game_enums import GameStates
 from texticular.command_parser import Parser, ParseTree
-from texticular.ui.fixed_layout_ui import FixedLayoutUI
+from texticular.ui.ascii_ui import ASCIIGameUI, GameState
 from texticular.gameplay_logger import get_logger
 from texticular.npc_manager import get_npc_manager
 import texticular.globals as g
@@ -34,7 +34,7 @@ class Controller:
         self.player = player
         self.parser = Parser(game_objects=GameObject.objects_by_key)
         self.tokens = ParseTree()
-        self.ui = FixedLayoutUI()
+        self.ui = ASCIIGameUI()
         self.turn_count = 0
         self.score = 0
         self.poop_level = 45  # Starting urgency
@@ -94,15 +94,23 @@ class Controller:
             f"your license and focus your still hazy eyes and barely make out that it says...{self.player.name}."
         )
 
-        # Use Rich UI for intro
-        intro_content = [
-            intro_text,
-            intro_scene_part1,
-            intro_scene_part2, 
-            intro_scene_part3
-        ]
+        # Simple intro for ASCII UI testing
+        print("=" * 80)
+        print("TEXTICULAR: Chapter 1 - You Gotta Go!")
+        print("=" * 80)
+        print()
+        print("Press ENTER to begin...")
+        input()
         
-        self.ui.display_intro(intro_content)
+        # Skip intro content for now - go straight to game
+        # intro_content = [
+        #     intro_text,
+        #     intro_scene_part1,
+        #     intro_scene_part2, 
+        #     intro_scene_part3
+        # ]
+        # 
+        # self.ui.display_intro(intro_content)
         
         # Get initial room description and render first screen
         self.response = []
@@ -257,6 +265,58 @@ class Controller:
         
         return True  # Continue game loop by default
 
+    def handle_direct_dialogue_input(self):
+        """Handle input for direct dialogue graphs (like the genie)."""
+        # Handle quit commands
+        if self.user_input.lower().strip() in ['quit', 'exit', 'q']:
+            self.gamestate = GameStates.EXPLORATION
+            self.active_npc = None
+            self.dialogue_graph = None
+            self.dialogue_content = None
+            self.response = ["You decide to end the conversation."]
+            return
+        
+        current_node = self.dialogue_graph.current_node()
+        
+        # Handle end of conversation
+        if not current_node.choices or current_node.node_id == "EXIT":
+            # Conversation has ended
+            self.gamestate = GameStates.EXPLORATION
+            self.active_npc = None
+            self.dialogue_graph = None
+            self.dialogue_content = None
+            self.response = [current_node.text]
+            return
+        
+        # Parse user choice
+        try:
+            choice_num = int(self.user_input.strip()) - 1  # Convert to 0-based index
+            
+            if 0 <= choice_num < len(current_node.choices):
+                # Valid choice - advance dialogue
+                self.dialogue_graph.make_choice(choice_num)
+                
+                # Update dialogue content for UI
+                new_node = self.dialogue_graph.current_node()
+                self.dialogue_content = {
+                    "npc_name": "Genie Bobblehead",
+                    "current_text": new_node.text,
+                    "choices": [{"text": choice.text, "next_node": choice.leads_to_id} for choice in new_node.choices]
+                }
+                
+                # Set response for display
+                self.response = [new_node.text]
+                return
+            else:
+                # Invalid choice number
+                self.response = [f"Please enter a number between 1 and {len(current_node.choices)}, or 'quit' to end the conversation."]
+                return
+                
+        except ValueError:
+            # Not a number
+            self.response = [f"Please enter a number (1-{len(current_node.choices)}) or 'quit' to end the conversation."]
+            return
+
 
 
     def render(self):
@@ -266,16 +326,29 @@ class Controller:
 
     def render_game_screen(self):
         '''Render the complete game screen with current state'''
-        # Prepare exits list
+        # Prepare exits list in the new format
         exits = []
         if hasattr(self.player.location, 'exits') and self.player.location.exits:
             for direction, room_exit in self.player.location.exits.items():
                 # Handle both string and Directions enum
-                dir_name = direction.name if hasattr(direction, 'name') else str(direction).upper()
-                exit_desc = f"{dir_name} - {room_exit.name}"
-                if hasattr(room_exit, 'is_locked') and room_exit.is_locked:
-                    exit_desc += " (locked)"
-                exits.append(exit_desc)
+                dir_name = direction.name if hasattr(direction, 'name') else str(direction).lower()
+                
+                # Create exit description based on GameInteractions.txt format
+                if dir_name == "west":
+                    exit_desc = "is the DOOR to that sweet sweet porcelain throne"
+                    exit_name = "Bathroom Door"
+                elif dir_name == "east":
+                    exit_desc = "the DOOR leads outside to the hallway...where hopefully there are toilets"
+                    exit_name = "Hallway Door"
+                else:
+                    exit_desc = f"leads to {room_exit.name}"
+                    exit_name = room_exit.name
+                    
+                exits.append({
+                    "direction": dir_name,
+                    "description": exit_desc,
+                    "name": exit_name
+                })
         
         # Prepare inventory list
         inventory = []
@@ -292,35 +365,48 @@ class Controller:
             else:
                 response_text = str(self.response)
         
-        # Get room description and handle if it's a list
-        room_description = ""
-        if self.player.location:
-            desc = self.player.location.describe()
-            if isinstance(desc, list):
-                room_description = " ".join([str(d) for d in desc])
-            else:
-                room_description = str(desc)
-        else:
-            room_description = "You are nowhere."
+        # Get room description - for now use the basic description
+        # TODO: Replace with proper Room 201 content per GameInteractions.txt
+        room_description = "As you look around the hotel room you see an old TV with rabbit ears that looks like it came straight out of the 1950's. Against the wall there is a beat up night stand with a little drawer built into it and black rotary phone on top. Next to it is a lumpy old bed that looks like it's seen better days, with a dark brown stain on the sheets and a funny smell coming from it. There is an obnoxious orange couch in the corner next to a small window smudged with sticky purple hand prints. The stuffing is coming out of the couch cushions which are also spotted with purple, and the floor is covered with empty cans of Fast Eddie's Colon Cleanse."
         
-        # Create game state for UI
-        game_state = {
-            "room_name": self.player.location.name if self.player.location else "Unknown",
-            "description": room_description,
-            "exits": exits,
-            "turn": self.turn_count,
-            "score": self.score,
-            "poop_level": self.poop_level,
-            "inventory": inventory,
-            "last_command": self.user_input if hasattr(self, 'user_input') else "",
-            "response": response_text
-        }
+        # Visible items (separate section)
+        visible_items = [
+            "On the floor you see a small folded piece of paper, looks like a note.",
+            "A little lemon with a big attitude sits on the night stand."
+        ]
+        
+        # NPCs (for testing with Genie Bobblehead)
+        npcs = [
+            "There is a strange little Genie Bobblehead with a speaker built into it on the nightstand that has googley eyes and an eery smile that almost seems like it's alive. It is holding a little sign that says \"Ask Me Anything...but you might WISH you hadn't hahaha!\". It's head is bouncing back and forth slightly and it seems to be silently judging you."
+        ]
+        
+        # Create GameState object for ASCII UI
+        game_state = GameState(
+            room_name=self.player.location.name if self.player.location else "Unknown",
+            room_description=room_description,
+            visible_items=visible_items,
+            npcs=npcs,
+            exits=exits,
+            inventory=inventory,
+            turn=self.turn_count,
+            score=self.score,
+            poop_level=self.poop_level,
+            location=self.player.location.name if self.player.location else "Unknown",
+            last_response=response_text,
+            dialogue_active=(self.gamestate == GameStates.DIALOGUESCENE),
+            dialogue_content=self.dialogue_content if hasattr(self, 'dialogue_content') else None
+        )
         
         # Render the screen
-        self.ui.render_screen(game_state)
+        self.ui.render_game_screen(game_state)
 
     def handle_dialogue_input(self):
         """Handle input during dialogue scenes."""
+        # Check if we have a direct dialogue graph (like for the genie)
+        if hasattr(self, 'dialogue_graph') and self.dialogue_graph:
+            return self.handle_direct_dialogue_input()
+        
+        # Otherwise use the NPC manager system
         npc_manager = get_npc_manager()
         player_id = self.player.key_value
         conversation = npc_manager.get_active_conversation(player_id)
@@ -418,7 +504,6 @@ class Controller:
         self.commands["search"] = va.look   # Add search as alias for look
         self.commands["walk"] = va.walk
         self.commands["go"] = va.walk
-        self.commands["move"] = va.walk
         self.commands["get"] = va.take
         self.commands["take"] = va.take
         self.commands["drop"] = va.drop
@@ -426,13 +511,25 @@ class Controller:
         self.commands["close"] = va.close
         self.commands["put"] = va.put
         self.commands["use"] = va.use
-        self.commands["sit"] = va.sit  # Add sit command
         self.commands["inventory"] = va.inventory
         self.commands["i"] = va.inventory  # Add shortcut for inventory
         self.commands["talk"] = va.talk  # Add talk command for NPCs
         self.commands["speak"] = va.talk  # Add speak as alias for talk
         self.commands["wipe"] = va.clean
         self.commands["wipe off"] = va.clean
+        self.commands["move"] = va.move_object  # Handle moving objects (not walking)
+        self.commands["adjust"] = va.adjust
+        self.commands["sit"] = va.sit
+        self.commands["jump"] = va.jump_on
+        self.commands["lay"] = va.lay_on
+        self.commands["lie"] = va.lay_on
+        self.commands["touch"] = va.touch
+        self.commands["feel"] = va.touch
+        self.commands["smell"] = va.smell
+        self.commands["eat"] = va.eat
+        self.commands["squeeze"] = va.squeeze
+        self.commands["break"] = va.break_object
+        self.commands["smash"] = va.break_object
 
 
 

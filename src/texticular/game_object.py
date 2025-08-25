@@ -85,9 +85,10 @@ class GameObject:
 
         duplicate_object = GameObject.lookup_by_key(key_value)
         if duplicate_object:
-            raise ValueError(f"Each game object must have a unique key value. {key_value} already exists on "
-                             f"Object: {duplicate_object.name}:"
-                             f" {duplicate_object.key_value}")
+            raise ValueError(f""" You're trying to create an Object: {name}:{key_value} but,
+                             each game object must have a unique key value. {key_value} already exists on 
+                             Object: {duplicate_object.name}:{duplicate_object.key_value}
+            """)
         else:
             self.key_value = key_value
             GameObject.objects_by_key[key_value] = self

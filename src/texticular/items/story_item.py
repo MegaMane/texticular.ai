@@ -102,14 +102,14 @@ class Container(StoryItem):
 
     def look_inside(self) -> str:
         response = []
-        response.append(f"You look inside the {self.descriptive_name} and see...\n")
-        response.append(("-" * len(response[0])) + "\n\n")
+        response.append(f"You open the {self.name.lower()} and inside you see:")
 
         if self.items:
             for item in self.items:
-                response.append(f"{item.descriptive_name}: {item.describe()}")
+                # Format as: "    ItemName: Description"
+                response.append(f"    {item.name}: {item.describe()}")
         else:
-            response.append(f"Nothing. It's empty.")
+            response.append("    Nothing. It's empty.")
 
         return response
 

@@ -1,0 +1,412 @@
+{
+  "title": "Conversation with Genie Bobblehead",
+  "rootNodeID": "START",
+  "nodes": [
+    {
+      "nodeId": "START",
+      "text": "The Genie Bobblehead's head stops bouncing and the googly eyes focus on you with an eerie intensity. Its tiny speaker crackles to life with a surprisingly deep voice. 'Ah, another desperate soul! I see you've been sampling Fast Eddie's finest colon cleanser. *chuckles darkly* You mortals never learn, do you? Well, since you're here, I suppose I could grant you a wish... but you know how these things go. Be very careful what you wish for!'",
+      "choices": [
+        {
+          "choice": "I wish to find a working bathroom immediately!",
+          "leadsToId": "BATHROOM_WISH"
+        },
+        {
+          "choice": "I wish I never drank that colon cleanse stuff.",
+          "leadsToId": "REGRET_WISH"
+        },
+        {
+          "choice": "Can you tell me about this hotel?",
+          "leadsToId": "HOTEL_INFO"
+        },
+        {
+          "choice": "This is too weird, I'm out of here.",
+          "leadsToId": "FLEE_ATTEMPT"
+        }
+      ]
+    },
+    {
+      "nodeId": "BATHROOM_WISH",
+      "text": "The genie's eyes glow with an otherworldly light. 'Ahhhh, the classic bathroom wish! How delightfully predictable. Yes, yes, I can help you with that... but as with all wishes, there are... complications. You see, there IS a working bathroom in this very room - behind the western door. But there's a teensy tiny problem...'",
+      "choices": [
+        {
+          "choice": "What kind of problem?",
+          "leadsToId": "DANE_WARNING"
+        },
+        {
+          "choice": "I don't care, just tell me!",
+          "leadsToId": "URGENT_BATHROOM"
+        },
+        {
+          "choice": "Maybe I should make a different wish...",
+          "leadsToId": "SECOND_WISH"
+        }
+      ]
+    },
+    {
+      "nodeId": "REGRET_WISH",
+      "text": "The genie throws back its tiny head and laughs maniacally. 'Oh my! Time travel wishes! Those are my favorite because they're so wonderfully impossible! Even I, a powerful mystical being, cannot undo what has been done. The Fast Eddie flows through your veins now, mortal. Your only path is forward!'",
+      "choices": [
+        {
+          "choice": "Then help me deal with the consequences!",
+          "leadsToId": "PRACTICAL_HELP"
+        },
+        {
+          "choice": "There must be something you can do!",
+          "leadsToId": "INSIST_HELP"
+        },
+        {
+          "choice": "This is hopeless...",
+          "leadsToId": "DESPAIR"
+        }
+      ]
+    },
+    {
+      "nodeId": "HOTEL_INFO",
+      "text": "The genie's expression turns somber. 'Ah, the Fleabag Hotel. What a delightfully wretched establishment! Built in 1952 on the site of an old... well, let's just say the previous building had better plumbing. This place attracts the desperate, the lost, and those foolish enough to trust Fast Eddie's marketing.'",
+      "choices": [
+        {
+          "choice": "Why are you here?",
+          "leadsToId": "GENIE_STORY"
+        },
+        {
+          "choice": "Can you help me escape this place?",
+          "leadsToId": "ESCAPE_WISH"
+        },
+        {
+          "choice": "Tell me about the bathroom situation.",
+          "leadsToId": "BATHROOM_INFO"
+        }
+      ]
+    },
+    {
+      "nodeId": "FLEE_ATTEMPT",
+      "text": "The genie chuckles as you turn to leave. 'Oh no no no, mortal! You awakened me with your touch, and now we must finish our business. That's how these things work! Besides, where exactly are you planning to go? The hall? The vending machine? Your situation won't improve by running away.'",
+      "choices": [
+        {
+          "choice": "Fine, what can you do for me?",
+          "leadsToId": "HELP_OPTIONS"
+        },
+        {
+          "choice": "I really just want to leave!",
+          "leadsToId": "INSIST_LEAVE"
+        },
+        {
+          "choice": "You're right, I need help.",
+          "leadsToId": "ADMIT_NEED"
+        }
+      ]
+    },
+    {
+      "nodeId": "DANE_WARNING",
+      "text": "The genie's expression turns deadly serious. 'There's a Great Dane in that bathroom, mortal. A very large, very hungry, very grumpy Great Dane. Management's... let's call it a \"security measure.\" The beast will tolerate one visit - barely - but if you return without the proper... offering... well, let's just say your bathroom troubles will become the least of your problems.'",
+      "choices": [
+        {
+          "choice": "What kind of offering?",
+          "leadsToId": "DOG_TREATS"
+        },
+        {
+          "choice": "How dangerous is this dog exactly?",
+          "leadsToId": "DANE_DANGER"
+        },
+        {
+          "choice": "Isn't there another bathroom somewhere?",
+          "leadsToId": "OTHER_BATHROOMS"
+        },
+        {
+          "choice": "I'll take my chances with the dog.",
+          "leadsToId": "BRAVE_ATTEMPT"
+        }
+      ]
+    },
+    {
+      "nodeId": "URGENT_BATHROOM",
+      "text": "The genie winces sympathetically. 'Oh dear, you really are in distress, aren't you? Very well, here's the brutal truth: that bathroom has a Great Dane guarding it. You can use it once - maybe - but if you go back without dog treats, you'll become the treats. The vending machine south of here sells what you need, but you'll need money.'",
+      "choices": [
+        {
+          "choice": "Where can I get money?",
+          "leadsToId": "MONEY_SOURCES"
+        },
+        {
+          "choice": "Can you give me money?",
+          "leadsToId": "GENIE_MONEY"
+        },
+        {
+          "choice": "Tell me more about these dog treats.",
+          "leadsToId": "DOG_TREATS"
+        }
+      ]
+    },
+    {
+      "nodeId": "DOG_TREATS",
+      "text": "The genie nods knowingly. 'Sleepy Time Dog Treats, to be precise. Fast Eddie's makes them - ghastly things that could knock out an elephant. Feed one to that beast and it'll sleep for hours, giving you all the bathroom time you need. The vending machine has them for 50 cents.'",
+      "choices": [
+        {
+          "choice": "Where can I find 50 cents?",
+          "leadsToId": "MONEY_SOURCES"
+        },
+        {
+          "choice": "Are there any other solutions?",
+          "leadsToId": "ALTERNATIVE_SOLUTIONS"
+        },
+        {
+          "choice": "This seems overly complicated...",
+          "leadsToId": "GENIE_PHILOSOPHY"
+        }
+      ]
+    },
+    {
+      "nodeId": "MONEY_SOURCES",
+      "text": "The genie's eyes twinkle mischievously. 'Ah, now we're getting to the fun part! There are a few options, each with their own... flavor. You could search the couch cushions right here in this room - I sense metal objects within. Or perhaps make a deal with that janitor fellow in the eastern hallway. He's quite entrepreneurial, that one.'",
+      "choices": [
+        {
+          "choice": "Tell me about the couch cushions.",
+          "leadsToId": "COUCH_HINT"
+        },
+        {
+          "choice": "What kind of deal does the janitor want?",
+          "leadsToId": "JANITOR_DEAL"
+        },
+        {
+          "choice": "Any other ways to get money?",
+          "leadsToId": "OTHER_MONEY"
+        }
+      ]
+    },
+    {
+      "nodeId": "COUCH_HINT",
+      "text": "The genie gestures toward the orange monstrosity. 'That hideous couch has seen many desperate souls before you. Some have left... offerings... between the cushions. Two quarters, to be exact - just enough for your needs. Though you'll have to dig through whatever else might be lurking in there.'",
+      "choices": [
+        {
+          "choice": "That's perfect! Thank you!",
+          "leadsToId": "GRATEFUL_EXIT"
+        },
+        {
+          "choice": "What else might be in there?",
+          "leadsToId": "COUCH_DANGERS"
+        },
+        {
+          "choice": "Are there any other options?",
+          "leadsToId": "MORE_OPTIONS"
+        }
+      ]
+    },
+    {
+      "nodeId": "JANITOR_DEAL",
+      "text": "The genie chuckles darkly. 'Old Hank? He's got money, but he'll want something in return. Last I heard, he was interested in acquiring certain... cleaning supplies... from the supply closet. Nothing too illegal, mind you, just morally ambiguous. The key to said closet is hidden somewhere in this very building.'",
+      "choices": [
+        {
+          "choice": "Where is this key hidden?",
+          "leadsToId": "KEY_LOCATION"
+        },
+        {
+          "choice": "I don't want to steal anything.",
+          "leadsToId": "MORAL_STANCE"
+        },
+        {
+          "choice": "Tell me about other money options.",
+          "leadsToId": "OTHER_MONEY"
+        }
+      ]
+    },
+    {
+      "nodeId": "GENIE_STORY",
+      "text": "The genie's expression turns wistful. 'I was once a proud lamp-dwelling genie, granting wishes to sultans and merchants! But alas, I was tricked into this ridiculous bobblehead form by a con artist named... well, you can guess. Now I'm stuck here, helping desperate hotel guests with their bathroom emergencies. It's not glamorous, but it's honest work.'",
+      "choices": [
+        {
+          "choice": "That's terrible! Can I help free you?",
+          "leadsToId": "FREE_GENIE"
+        },
+        {
+          "choice": "Fast Eddie did this to you?",
+          "leadsToId": "EDDIE_STORY"
+        },
+        {
+          "choice": "Let's focus on my problem for now.",
+          "leadsToId": "BACK_TO_BUSINESS"
+        }
+      ]
+    },
+    {
+      "nodeId": "FREE_GENIE",
+      "text": "The genie's eyes light up with hope, then dim. 'You're very kind, mortal, but my freedom requires something you don't possess - three wishes from three different souls, all willingly given. You're only one person, and honestly, you have bigger problems right now. But I appreciate the thought!'",
+      "choices": [
+        {
+          "choice": "Maybe I'll come back after I solve my problem.",
+          "leadsToId": "RAIN_CHECK"
+        },
+        {
+          "choice": "Right, let's focus on the bathroom situation.",
+          "leadsToId": "BACK_TO_BUSINESS"
+        }
+      ]
+    },
+    {
+      "nodeId": "BACK_TO_BUSINESS",
+      "text": "The genie nods approvingly. 'Wise mortal! Priorities are important. So, to summarize: you need 50 cents for dog treats, which will let you safely use the bathroom multiple times. The money is either in this couch or available from the janitor for a small favor. Choose your path!'",
+      "choices": [
+        {
+          "choice": "I'll search the couch cushions.",
+          "leadsToId": "COUCH_CHOICE"
+        },
+        {
+          "choice": "I'll talk to the janitor.",
+          "leadsToId": "JANITOR_CHOICE"
+        },
+        {
+          "choice": "Thanks for all the information!",
+          "leadsToId": "GRATEFUL_EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "COUCH_CHOICE",
+      "text": "The genie claps its tiny hands. 'Excellent choice! Direct action, I like that. Remember, you're looking for two quarters - they should be fairly easy to spot among the... other debris. Good luck, brave mortal!'",
+      "choices": [
+        {
+          "choice": "Here I go...",
+          "leadsToId": "EXIT"
+        },
+        {
+          "choice": "Any final advice?",
+          "leadsToId": "FINAL_ADVICE"
+        }
+      ]
+    },
+    {
+      "nodeId": "GRATEFUL_EXIT",
+      "text": "The genie beams with pride. 'It's been my pleasure, mortal! Remember - dog treats from the vending machine, feed them to the Great Dane, then enjoy your bathroom in peace. And if you ever need mystical advice about hotel plumbing again, you know where to find me!'",
+      "choices": []
+    },
+    {
+      "nodeId": "FINAL_ADVICE",
+      "text": "The genie strokes its tiny beard thoughtfully. 'Just this: Fast Eddie's products are never what they seem, the janitor has a good heart despite appearances, and that Great Dane... well, it's just doing its job. Treat everyone with respect, and they'll usually return the favor. Now go forth and find relief!'",
+      "choices": [
+        {
+          "choice": "Thank you for everything!",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "DESPAIR",
+      "text": "The genie's voice becomes surprisingly gentle. 'Now now, mortal, despair is the enemy of action. You're in a challenging situation, yes, but it's far from hopeless. You have options, you have intelligence, and you have me to guide you. Take a deep breath - well, perhaps not too deep given your circumstances - and let's solve this together.'",
+      "choices": [
+        {
+          "choice": "You're right. What should I do?",
+          "leadsToId": "HELP_OPTIONS"
+        },
+        {
+          "choice": "I appreciate your encouragement.",
+          "leadsToId": "GRATEFUL_RESPONSE"
+        }
+      ]
+    },
+    {
+      "nodeId": "HELP_OPTIONS",
+      "text": "The genie nods sagely. 'Now we're talking! Here are your options: One, search this couch for 50 cents. Two, make a deal with the janitor for money. Three, risk the Great Dane without dog treats - though I strongly advise against that last one. What sounds most appealing?'",
+      "choices": [
+        {
+          "choice": "Tell me about the couch option.",
+          "leadsToId": "COUCH_HINT"
+        },
+        {
+          "choice": "What's this janitor deal about?",
+          "leadsToId": "JANITOR_DEAL"
+        },
+        {
+          "choice": "How dangerous is the Great Dane really?",
+          "leadsToId": "DANE_DANGER"
+        }
+      ]
+    },
+    {
+      "nodeId": "DANE_DANGER",
+      "text": "The genie's expression becomes deadly serious. 'Mortal, I've seen brave souls enter that bathroom and... well, let's just say the hotel's cleaning bills increased dramatically. The beast is enormous, hungry, and trained to protect that bathroom. Without dog treats, your chances of survival are... poor.'",
+      "choices": [
+        {
+          "choice": "Okay, I definitely need those dog treats!",
+          "leadsToId": "DOG_TREATS"
+        },
+        {
+          "choice": "Maybe there's another bathroom somewhere?",
+          "leadsToId": "OTHER_BATHROOMS"
+        },
+        {
+          "choice": "I'll find another solution.",
+          "leadsToId": "ALTERNATIVE_SOLUTIONS"
+        }
+      ]
+    },
+    {
+      "nodeId": "OTHER_BATHROOMS",
+      "text": "The genie shakes its head sadly. 'I'm afraid that's the only functioning bathroom in this establishment, mortal. The others are... well, you wouldn't want to use them even if they worked. Trust me, dealing with the Great Dane is your best option, even if it seems daunting.'",
+      "choices": [
+        {
+          "choice": "Then I need those dog treats!",
+          "leadsToId": "DOG_TREATS"
+        },
+        {
+          "choice": "This is insane...",
+          "leadsToId": "GENIE_PHILOSOPHY"
+        }
+      ]
+    },
+    {
+      "nodeId": "GENIE_PHILOSOPHY",
+      "text": "The genie chuckles warmly. 'Insane? My dear mortal, you're in a seedy hotel, talking to a bobblehead genie, planning to drug a Great Dane so you can use the bathroom. Sanity left the building the moment you touched that Fast Eddie's can. Embrace the absurdity!'",
+      "choices": [
+        {
+          "choice": "You know what? You're absolutely right!",
+          "leadsToId": "EMBRACE_CHAOS"
+        },
+        {
+          "choice": "I just want this nightmare to end.",
+          "leadsToId": "COMFORT"
+        },
+        {
+          "choice": "Let's just focus on the solution.",
+          "leadsToId": "BACK_TO_BUSINESS"
+        }
+      ]
+    },
+    {
+      "nodeId": "EMBRACE_CHAOS",
+      "text": "The genie beams with delight. 'Now THAT'S the spirit! Life's too short to worry about logic when you're facing a bathroom emergency! Go forth, brave mortal, and may your quest for relief be swift and successful!'",
+      "choices": [
+        {
+          "choice": "Here goes nothing!",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "COMFORT",
+      "text": "The genie's voice becomes soothing. 'I understand, mortal. Sometimes life throws us curveballs that seem impossible to handle. But remember - every problem has a solution, even the most absurd ones. You'll get through this, and someday you'll have quite the story to tell!'",
+      "choices": [
+        {
+          "choice": "Thank you. That actually helps.",
+          "leadsToId": "GRATEFUL_RESPONSE"
+        },
+        {
+          "choice": "You're right. Let's solve this!",
+          "leadsToId": "BACK_TO_BUSINESS"
+        }
+      ]
+    },
+    {
+      "nodeId": "GRATEFUL_RESPONSE",
+      "text": "The genie bows as much as a bobblehead can. 'It's been my genuine pleasure to assist you, mortal. Remember, the solution to your problem lies within reach - quite literally, in the case of those couch cushions! Now go forth and claim your victory!'",
+      "choices": [
+        {
+          "choice": "I will! Thank you!",
+          "leadsToId": "EXIT"
+        }
+      ]
+    },
+    {
+      "nodeId": "EXIT",
+      "text": "The genie's googly eyes return to their random bouncing, and its head resumes its gentle bobbing. 'Farewell for now, mortal! May your quest be successful and your relief be... relieving!' The speaker crackles once more before falling silent.",
+      "choices": []
+    }
+  ]
+}

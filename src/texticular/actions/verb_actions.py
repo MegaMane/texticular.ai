@@ -44,7 +44,11 @@ def take(controller: Controller):
                 controller.response.append((f"The  {item.name} won't fit in your {inventory.name}! "
                                             f"Try dropping something if you really want it."))
         else:
-            controller.response.append(f"The {item.name} won't budge.")
+            # Check if the item has a custom TakeResponse
+            if "TakeResponse" in item.descriptions:
+                controller.response.append(item.descriptions["TakeResponse"])
+            else:
+                controller.response.append(f"The {item.name} won't budge.")
 
         return False
     else:
@@ -234,3 +238,121 @@ def talk(controller):
     else:
         controller.response.append(f"The {npc.name} doesn't seem interested in talking right now.")
         return False
+
+
+def move_object(controller: Controller):
+    """Handle move/adjust commands for objects"""
+    item = controller.tokens.direct_object
+    
+    if "MoveResponse" in item.descriptions:
+        controller.response.append(item.descriptions["MoveResponse"])
+    else:
+        controller.response.append(f"You can't move the {item.name}.")
+    return True
+
+
+def adjust(controller: Controller):
+    """Handle adjust commands - same as move"""
+    return move_object(controller)
+
+
+def sit(controller: Controller):
+    """Handle sitting on objects"""
+    item = controller.tokens.direct_object
+    
+    if "SitResponse" in item.descriptions:
+        controller.response.append(item.descriptions["SitResponse"])
+    elif Flags.SETPIECEBIT in item.flags and any(word in item.name.lower() for word in ["couch", "bed", "chair", "seat"]):
+        controller.response.append(f"You sit on the {item.name}. It's not the most comfortable thing you've ever sat on.")
+    else:
+        controller.response.append(f"You can't sit on the {item.name}.")
+    return True
+
+
+def jump_on(controller: Controller):
+    """Handle jumping on objects"""
+    item = controller.tokens.direct_object
+    
+    if "JumpResponse" in item.descriptions:
+        controller.response.append(item.descriptions["JumpResponse"])
+    elif Flags.SETPIECEBIT in item.flags and any(word in item.name.lower() for word in ["bed", "couch", "mattress"]):
+        controller.response.append(f"You jump on the {item.name}. It creaks and groans under your weight.")
+    else:
+        controller.response.append(f"Jumping on the {item.name} doesn't seem like a good idea.")
+    return True
+
+
+def lay_on(controller: Controller):
+    """Handle laying on objects"""
+    item = controller.tokens.direct_object
+    
+    if "LayResponse" in item.descriptions:
+        controller.response.append(item.descriptions["LayResponse"])
+    elif Flags.SETPIECEBIT in item.flags and any(word in item.name.lower() for word in ["bed", "couch", "mattress"]):
+        controller.response.append(f"You lay down on the {item.name}. It's not very comfortable.")
+    else:
+        controller.response.append(f"You can't lay on the {item.name}.")
+    return True
+
+
+def touch(controller: Controller):
+    """Handle touching objects"""
+    item = controller.tokens.direct_object
+    
+    if "TouchResponse" in item.descriptions:
+        controller.response.append(item.descriptions["TouchResponse"])
+    else:
+        controller.response.append(f"You touch the {item.name}. It feels about like you'd expect.")
+    return True
+
+
+def smell(controller: Controller):
+    """Handle smelling objects"""
+    item = controller.tokens.direct_object
+    
+    if "SmellResponse" in item.descriptions:
+        controller.response.append(item.descriptions["SmellResponse"])
+    elif "smell" in item.name.lower():
+        controller.response.append(f"You take a whiff of the {item.name}. You immediately regret this decision.")
+    else:
+        controller.response.append(f"The {item.name} doesn't have much of a smell.")
+    return True
+
+
+def eat(controller: Controller):
+    """Handle eating objects"""
+    item = controller.tokens.direct_object
+    
+    if "EatResponse" in item.descriptions:
+        controller.response.append(item.descriptions["EatResponse"])
+    elif item.name.lower() in ["lemon", "food", "fruit"]:
+        controller.response.append(f"You eat the {item.name}. It's... edible.")
+    else:
+        controller.response.append(f"You can't eat the {item.name}. That would be disgusting and possibly dangerous.")
+    return True
+
+
+def squeeze(controller: Controller):
+    """Handle squeezing objects"""
+    item = controller.tokens.direct_object
+    
+    if "SqueezeResponse" in item.descriptions:
+        controller.response.append(item.descriptions["SqueezeResponse"])
+    elif "lemon" in item.name.lower():
+        controller.response.append(f"You squeeze the {item.name}. A little citrus juice drips out. Very refreshing!")
+    else:
+        controller.response.append(f"You squeeze the {item.name}. Nothing interesting happens.")
+    return True
+
+
+def break_object(controller: Controller):
+    """Handle breaking objects"""
+    item = controller.tokens.direct_object
+    
+    if "BreakResponse" in item.descriptions:
+        controller.response.append(item.descriptions["BreakResponse"])
+    elif Flags.SETPIECEBIT in item.flags:
+        controller.response.append(f"You can't break the {item.name}. It's too sturdy, too important, or you just don't have the right tools.")
+    else:
+        controller.response.append(f"Breaking the {item.name} doesn't seem like a good idea right now.")
+    return True
