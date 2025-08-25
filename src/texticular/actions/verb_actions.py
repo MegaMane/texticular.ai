@@ -205,6 +205,15 @@ def talk(controller):
         controller.response.append("Talk to whom?")
         return False
     
+    # Special case for genie - check if it's a genie object with dialogue
+    if "genie" in target.name.lower():
+        # Try to start genie dialogue directly
+        if hasattr(controller, 'start_dialogue'):
+            return controller.start_dialogue()
+        else:
+            controller.response.append("The Genie Bobblehead's googley eyes focus on you with an eerie intensity...")
+            return True
+    
     # Check if the target is an NPC
     npc_manager = get_npc_manager()
     npc = npc_manager.get_npc(target.key_value)
@@ -356,7 +365,12 @@ def turn_on(controller: Controller):
         controller.response.append("Turn on what?")
         return False
     
-    if "TurnOnResponse" in item.descriptions:
+    # Check if it's a Television object with proper methods
+    if hasattr(item, 'turn_on') and callable(item.turn_on):
+        response = item.turn_on()
+        controller.response.append(response)
+        return True
+    elif "TurnOnResponse" in item.descriptions:
         controller.response.append(item.descriptions["TurnOnResponse"])
     elif "tv" in item.name.lower():
         controller.response.append(f"You try to turn on the {item.name}, but it just displays static and fuzzy images. The reception here is terrible.")
@@ -375,7 +389,12 @@ def turn_off(controller: Controller):
         controller.response.append("Turn off what?")
         return False
     
-    if "TurnOffResponse" in item.descriptions:
+    # Check if it's a Television object with proper methods
+    if hasattr(item, 'turn_off') and callable(item.turn_off):
+        response = item.turn_off()
+        controller.response.append(response)
+        return True
+    elif "TurnOffResponse" in item.descriptions:
         controller.response.append(item.descriptions["TurnOffResponse"])
     elif "tv" in item.name.lower():
         controller.response.append(f"You turn off the {item.name}. The room becomes a bit quieter.")
@@ -392,3 +411,83 @@ def stand_up(controller: Controller):
     # For now, just provide a generic response
     controller.response.append("You stand up and stretch your legs.")
     return True
+
+
+def change_channel(controller: Controller):
+    """Handle changing TV channels."""
+    item = controller.tokens.direct_object
+    
+    if not item:
+        # Look for a TV in the current room
+        for room_item in controller.player.location.items:
+            if "tv" in room_item.name.lower() and hasattr(room_item, 'change_channel'):
+                response = room_item.change_channel()
+                controller.response.append(response)
+                return True
+        controller.response.append("Change channel on what?")
+        return False
+    
+    # Check if it's a Television object with channel changing capability
+    if hasattr(item, 'change_channel') and callable(item.change_channel):
+        response = item.change_channel()
+        controller.response.append(response)
+        return True
+    elif "tv" in item.name.lower():
+        controller.response.append(f"You fiddle with the knobs on the {item.name}, but nothing happens. Maybe it needs to be turned on first?")
+    else:
+        controller.response.append(f"You can't change channels on the {item.name}.")
+    return True
+
+
+def watch(controller: Controller):
+    """Handle watching TV or other objects."""
+    item = controller.tokens.direct_object
+    
+    if not item:
+        controller.response.append("Watch what?")
+        return False
+    
+    if "tv" in item.name.lower():
+        # Check if it's a Television object that's on
+        if hasattr(item, 'channels') and hasattr(item, 'flags'):
+            from texticular.game_enums import Flags as Flag
+            if Flag.ONBIT in item.flags:
+                controller.response.append(f"You watch the {item.name}. Currently showing: {item.channels[item.current_channel]}")
+            else:
+                controller.response.append(f"The {item.name} is turned off. You see only your own reflection in the dark screen.")
+        else:
+            controller.response.append(f"You stare at the {item.name}, but it's not very interesting when it's off.")
+    else:
+        controller.response.append(f"You watch the {item.name} intently. Not much happens.")
+    return True
+
+
+def dial(controller: Controller):
+    """Handle dialing phone numbers."""
+    # This is more complex - need to extract the number from the input
+    # For now, just direct to the phone if they have one
+    phone = None
+    
+    # Look for phone in current room
+    for item in controller.player.location.items:
+        if "phone" in item.name.lower():
+            phone = item
+            break
+    
+    if phone and hasattr(phone, 'dial_number'):
+        # Extract number from user input - this is a simplified approach
+        import re
+        numbers = re.findall(r'\b\d+(?:-\d+)*\b', controller.user_input)
+        if numbers:
+            response = phone.dial_number(numbers[0])
+            controller.response.append(response)
+        else:
+            controller.response.append("What number would you like to dial?")
+    else:
+        controller.response.append("You don't see a phone here.")
+    return True
+
+
+def call(controller: Controller):
+    """Handle calling - same as dial."""
+    return dial(controller)

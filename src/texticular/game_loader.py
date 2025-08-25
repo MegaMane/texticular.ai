@@ -9,6 +9,7 @@ from texticular.game_object import GameObject
 from texticular.game_enums import Flags, Directions
 from texticular.items.story_item import StoryItem, Inventory, Container
 from texticular.items.vending_machine import VendingMachine
+from texticular.items.props import Television
 from texticular.rooms.room import Room
 from texticular.rooms.exit import  RoomExit
 from texticular.character import Player, NPC
@@ -132,6 +133,26 @@ def decode_story_item_fromjson(dct):
     return constructed_item
 
 
+def decode_television_fromjson(dct):
+    """Decode Television from JSON configuration."""
+    constructed_tv = Television(
+        key_value=dct["keyValue"],
+        name=dct["name"],
+        descriptions=dct["descriptions"],
+        location_key=dct["locationKey"],
+        flags=generate_game_object_flags(dct["flags"]),
+        synonyms=dct.get("synonyms", ["Television", "TV", "Set"]),
+        adjectives=dct.get("adjectives", []),
+        channel_list=dct.get("channelList", ["Static..."]),
+        turn_on_response=dct.get("turnOnResponse", "You turn on the TV..."),
+        turn_off_response=dct.get("turnOffResponse", "The TV flickers then goes black.")
+    )
+    
+    constructed_tv.current_description = dct["currentDescription"]
+    constructed_tv.examine_description = dct["examineDescription"]
+    
+    return constructed_tv
+
 def decode_vending_machine_fromjson(dct):
     """Decode VendingMachine from JSON configuration."""
     constructed_machine = VendingMachine(
@@ -230,6 +251,7 @@ def load_story_items(config_file_path):
     config = load_json(config_file_path)
     items = [item for item in config["items"] if item["type"] == "StoryItem"]
     vending_machines = [item for item in config["items"] if item["type"] == "VendingMachine"]
+    televisions = [item for item in config["items"] if item["type"] == "Television"]
     
     storyitems = {}
     
@@ -243,6 +265,11 @@ def load_story_items(config_file_path):
     for machine in vending_machines:
         decoded_machine = decode_vending_machine_fromjson(machine)
         storyitems[decoded_machine.key_value] = decoded_machine
+    
+    # Load televisions
+    for tv in televisions:
+        decoded_tv = decode_television_fromjson(tv)
+        storyitems[decoded_tv.key_value] = decoded_tv
         
     return storyitems
 

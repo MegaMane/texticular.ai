@@ -1,9 +1,10 @@
 from texticular.items.story_item import StoryItem
+from texticular.game_enums import Flags as Flag
 
 class Television(StoryItem):
     def __init__(self, key_value: str, name: str, descriptions: dict, location_key: str,
-                 synonyms: list = ["Television", "Tube", "Boob Tube"], slots_occupied: int = 99, adjectives: list = [],
-                 flags: list = [Flag.SETPIECEBIT], commands: dict = {}, channel_list:list = [],
+                 synonyms: list = ["Television", "Tube", "Boob Tube"], adjectives: list = [],
+                 flags: list = [Flag.SETPIECEBIT], channel_list: list = [],
                  turn_on_response = "You turn on the TV...", turn_off_response= "The TV flickers then goes black."):
 
         self.channels = channel_list
@@ -15,14 +16,8 @@ class Television(StoryItem):
         if len(self.channels) == 0:
             self.channels.append("Static...")
 
-        super().__init__(key_value, name, descriptions, location_key=location_key, synonyms=synonyms,
-                         slots_occupied=slots_occupied, adjectives=adjectives, flags=flags, commands=commands)
-
-        self.commands["change channel"] = self.change_channel
-        self.commands["turn on"] = self.turn_on
-        self.commands["power on"] = self.turn_on
-        self.commands["turn off"] = self.turn_off
-        self.commands["power off"] = self.turn_off
+        super().__init__(key_value, name, descriptions, synonyms=synonyms,
+                         adjectives=adjectives, location_key=location_key, flags=flags)
 
 
     def change_channel(self) ->str:
@@ -51,4 +46,25 @@ class Television(StoryItem):
 
 
 class Phone(StoryItem):
-    pass
+    def __init__(self, key_value: str, name: str, descriptions: dict, location_key: str,
+                 synonyms: list = ["Phone"], adjectives: list = [],
+                 flags: list = [Flag.SETPIECEBIT], numbers_dict: dict = None):
+        
+        super().__init__(key_value, name, descriptions, synonyms=synonyms,
+                         adjectives=adjectives, location_key=location_key, flags=flags)
+        
+        self.numbers = numbers_dict or {
+            "0": "Operator: All circuits are busy. Please try again later.",
+            "911": "Emergency Services: What's your emergency? ...Wait, is this about a bathroom situation? We don't handle that.",
+            "411": "Information: The number you have dialed has been changed to a non-published number.",
+            "555-1234": "You hear a recording: 'Thank you for calling Fast Eddie's customer service. All representatives are currently helping other customers with their bowel movements.'"
+        }
+    
+    def dial_number(self, number=None):
+        if not number:
+            return "What number would you like to dial? Try 'dial [number]' on the phone."
+        
+        if str(number) in self.numbers:
+            return self.numbers[str(number)]
+        else:
+            return f"You dial {number}... The line rings a few times before disconnecting. Must be out of service."

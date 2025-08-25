@@ -24,7 +24,11 @@ KNOWN_VERBS = [
     "i",  # Add inventory shortcut
     "wipe",
     "wipe off",
-    "rub"  # Add rub verb for genie
+    "rub",  # Add rub verb for genie
+    "change channel",  # Add TV channel changing
+    "watch",  # Add watch verb for TV
+    "dial",  # Add dial for phone
+    "call"   # Add call for phone
 ]
 
 SINGLE_VERB_COMMANDS = [
@@ -33,7 +37,8 @@ SINGLE_VERB_COMMANDS = [
     "inventory",
     "look",
     "quit",
-    "save"
+    "save",
+    "change channel"
 ]
 
 

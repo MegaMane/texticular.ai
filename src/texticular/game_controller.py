@@ -551,6 +551,10 @@ class Controller:
         self.commands["stand"] = va.stand_up
         self.commands["get up"] = va.stand_up
         self.commands["rub"] = va.touch  # Rub as alias for touch
+        self.commands["change channel"] = va.change_channel  # TV channel changing
+        self.commands["watch"] = va.watch  # Watch TV or other objects
+        self.commands["dial"] = va.dial  # Dial phone numbers
+        self.commands["call"] = va.call  # Call phone numbers
 
 
 
